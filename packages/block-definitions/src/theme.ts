@@ -26,17 +26,22 @@ function styles(dark: boolean) {
   return { blockStyles, categoryStyles };
 }
 
-let cache: { dark: Blockly.Theme; light: Blockly.Theme } | undefined;
-let cacheFont: string | undefined;
+type ThemePair = { dark: Blockly.Theme; light: Blockly.Theme };
+/** One theme pair per font stack (the Arabic UI uses an Arabic-first stack); names stay unique per pair. */
+const cache = new Map<string, ThemePair>();
+let lastPair: ThemePair | undefined;
 
-export function defineGlassThemes(fontFamily?: string): { dark: Blockly.Theme; light: Blockly.Theme } {
-  if (cache && (!fontFamily || fontFamily === cacheFont)) return cache;
-  cacheFont = fontFamily;
+export function defineGlassThemes(fontFamily?: string): ThemePair {
+  if (!fontFamily && lastPair) return lastPair;
+  const cacheKey = fontFamily ?? "";
+  const hit = cache.get(cacheKey);
+  if (hit) { lastPair = hit; return hit; }
+  const suffix = cache.size ? `-${cache.size}` : "";
   const d = styles(true);
   const l = styles(false);
   const font = { family: fontFamily ? `${fontFamily}, ui-sans-serif, system-ui, sans-serif` : "\"Plus Jakarta Sans\", ui-sans-serif, system-ui, sans-serif", weight: "700", size: 11 };
-  const dark = Blockly.Theme.defineTheme("pinflow-warm-dark", {
-    name: "pinflow-warm-dark",
+  const dark = Blockly.Theme.defineTheme(`pinflow-warm-dark${suffix}`, {
+    name: `pinflow-warm-dark${suffix}`,
     base: Blockly.Themes.Classic,
     blockStyles: d.blockStyles,
     categoryStyles: d.categoryStyles,
@@ -49,8 +54,8 @@ export function defineGlassThemes(fontFamily?: string): { dark: Blockly.Theme; l
     fontStyle: font,
     startHats: false,
   });
-  const light = Blockly.Theme.defineTheme("pinflow-warm-light", {
-    name: "pinflow-warm-light",
+  const light = Blockly.Theme.defineTheme(`pinflow-warm-light${suffix}`, {
+    name: `pinflow-warm-light${suffix}`,
     base: Blockly.Themes.Classic,
     blockStyles: l.blockStyles,
     categoryStyles: l.categoryStyles,
@@ -63,6 +68,8 @@ export function defineGlassThemes(fontFamily?: string): { dark: Blockly.Theme; l
     fontStyle: font,
     startHats: false,
   });
-  cache = { dark, light };
-  return cache;
+  const pair = { dark, light };
+  cache.set(cacheKey, pair);
+  lastPair = pair;
+  return pair;
 }
