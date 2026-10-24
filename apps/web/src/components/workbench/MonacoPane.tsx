@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import type * as Monaco from "monaco-editor";
 import { installMonaco, setSymbolSource } from "./monaco-setup";
 import type { WorkbenchEngine } from "./engine";
+import { useT } from "@/i18n/client";
 
 function monoFamily(): string {
   const v = typeof document !== "undefined" ? getComputedStyle(document.documentElement).getPropertyValue("--font-jbmono").trim() : "";
@@ -18,12 +19,13 @@ export function MonacoPane({ engine, initialSource, theme, fontSize = 13, readOn
 }) {
   const editorRef = useRef<Monaco.editor.IStandaloneCodeEditor | null>(null);
   const monacoRef = useRef<typeof Monaco | null>(null);
+  const t = useT();
 
   useEffect(() => { monacoRef.current?.editor.setTheme(theme === "light" ? "pinflow-light" : "pinflow-dark"); }, [theme]);
   useEffect(() => { editorRef.current?.updateOptions({ fontSize, wordWrap: wordWrap ? "on" : "off", minimap: { enabled: minimap } }); }, [fontSize, wordWrap, minimap]);
 
   return (
-    <div className="h-full w-full" data-testid="monaco-host">
+    <div className="h-full w-full" data-testid="monaco-host" dir="ltr">
       <Editor
         defaultLanguage="cpp"
         defaultValue={initialSource}
@@ -37,7 +39,7 @@ export function MonacoPane({ engine, initialSource, theme, fontSize = 13, readOn
           // Re-measure once the self-hosted mono font is ready so the cursor and selections line up.
           void document.fonts?.ready.then(() => monacoRef.current?.editor.remeasureFonts());
         }}
-        loading={<div className="grid h-full place-items-center text-sm text-muted">Loading code editor…</div>}
+        loading={<div className="grid h-full place-items-center text-sm text-muted">{t("wb.loadingEditor")}</div>}
         options={{
           readOnly, fontSize, fontFamily: monoFamily(), fontLigatures: true,
           minimap: { enabled: minimap }, wordWrap: wordWrap ? "on" : "off", scrollBeyondLastLine: false, smoothScrolling: true,
