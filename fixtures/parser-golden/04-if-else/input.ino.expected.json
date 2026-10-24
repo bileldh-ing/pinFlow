@@ -1,0 +1,379 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        0,
+        0
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        3,
+        5
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        7,
+        25
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "VarDecl",
+        "type": "int",
+        "isConst": false,
+        "name": "level",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "0"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "bool",
+        "isConst": false,
+        "name": "armed",
+        "init": {
+          "kind": "BoolLit",
+          "value": false
+        }
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "v",
+            "init": {
+              "kind": "Call",
+              "callee": "analogRead",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "A0"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "If",
+            "branches": [
+              {
+                "cond": {
+                  "kind": "Binary",
+                  "op": "&&",
+                  "left": {
+                    "kind": "Binary",
+                    "op": ">",
+                    "left": {
+                      "kind": "Ident",
+                      "name": "v"
+                    },
+                    "right": {
+                      "kind": "NumberLit",
+                      "raw": "800"
+                    }
+                  },
+                  "right": {
+                    "kind": "Ident",
+                    "name": "armed"
+                  }
+                },
+                "body": [
+                  {
+                    "kind": "Assign",
+                    "op": "=",
+                    "target": {
+                      "kind": "Ident",
+                      "name": "level"
+                    },
+                    "value": {
+                      "kind": "NumberLit",
+                      "raw": "3"
+                    }
+                  }
+                ]
+              },
+              {
+                "cond": {
+                  "kind": "Binary",
+                  "op": "||",
+                  "left": {
+                    "kind": "Binary",
+                    "op": ">",
+                    "left": {
+                      "kind": "Ident",
+                      "name": "v"
+                    },
+                    "right": {
+                      "kind": "NumberLit",
+                      "raw": "500"
+                    }
+                  },
+                  "right": {
+                    "kind": "Paren",
+                    "inner": {
+                      "kind": "Binary",
+                      "op": "&&",
+                      "left": {
+                        "kind": "Binary",
+                        "op": ">",
+                        "left": {
+                          "kind": "Ident",
+                          "name": "v"
+                        },
+                        "right": {
+                          "kind": "NumberLit",
+                          "raw": "400"
+                        }
+                      },
+                      "right": {
+                        "kind": "Unary",
+                        "op": "!",
+                        "operand": {
+                          "kind": "Ident",
+                          "name": "armed"
+                        }
+                      }
+                    }
+                  }
+                },
+                "body": [
+                  {
+                    "kind": "If",
+                    "branches": [
+                      {
+                        "cond": {
+                          "kind": "Binary",
+                          "op": "<",
+                          "left": {
+                            "kind": "Ident",
+                            "name": "level"
+                          },
+                          "right": {
+                            "kind": "NumberLit",
+                            "raw": "2"
+                          }
+                        },
+                        "body": [
+                          {
+                            "kind": "Assign",
+                            "op": "=",
+                            "target": {
+                              "kind": "Ident",
+                              "name": "level"
+                            },
+                            "value": {
+                              "kind": "NumberLit",
+                              "raw": "2"
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "elseBody": [
+                      {
+                        "kind": "ExprStmt",
+                        "expr": {
+                          "kind": "Update",
+                          "op": "--",
+                          "prefix": false,
+                          "target": {
+                            "kind": "Ident",
+                            "name": "level"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "cond": {
+                  "kind": "Unary",
+                  "op": "!",
+                  "operand": {
+                    "kind": "Paren",
+                    "inner": {
+                      "kind": "Binary",
+                      "op": "<",
+                      "left": {
+                        "kind": "Ident",
+                        "name": "v"
+                      },
+                      "right": {
+                        "kind": "NumberLit",
+                        "raw": "100"
+                      }
+                    }
+                  }
+                },
+                "body": [
+                  {
+                    "kind": "Assign",
+                    "op": "=",
+                    "target": {
+                      "kind": "Ident",
+                      "name": "level"
+                    },
+                    "value": {
+                      "kind": "NumberLit",
+                      "raw": "1"
+                    }
+                  }
+                ]
+              }
+            ],
+            "elseBody": [
+              {
+                "kind": "Assign",
+                "op": "=",
+                "target": {
+                  "kind": "Ident",
+                  "name": "level"
+                },
+                "value": {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Assign",
+            "op": "=",
+            "target": {
+              "kind": "Ident",
+              "name": "armed"
+            },
+            "value": {
+              "kind": "Ternary",
+              "cond": {
+                "kind": "Binary",
+                "op": "==",
+                "left": {
+                  "kind": "Binary",
+                  "op": "%",
+                  "left": {
+                    "kind": "Ident",
+                    "name": "v"
+                  },
+                  "right": {
+                    "kind": "NumberLit",
+                    "raw": "2"
+                  }
+                },
+                "right": {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                }
+              },
+              "then": {
+                "kind": "BoolLit",
+                "value": true
+              },
+              "else": {
+                "kind": "BoolLit",
+                "value": false
+              }
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "bool",
+            "isConst": false,
+            "name": "odd",
+            "init": {
+              "kind": "Binary",
+              "op": "!=",
+              "left": {
+                "kind": "Paren",
+                "inner": {
+                  "kind": "Binary",
+                  "op": "&",
+                  "left": {
+                    "kind": "Ident",
+                    "name": "v"
+                  },
+                  "right": {
+                    "kind": "NumberLit",
+                    "raw": "1"
+                  }
+                }
+              },
+              "right": {
+                "kind": "NumberLit",
+                "raw": "0"
+              }
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "level"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
