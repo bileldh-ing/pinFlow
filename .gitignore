@@ -1,0 +1,17 @@
+node_modules
+.next
+dist
+coverage
+*.log
+.env*
+!.env.example
+.pglite-data
+.arduino-cache
+*.tsbuildinfo
+.pglite-data*
+test-results/
+playwright-report/
+*.bak
+*.orig
+backups/
+.cw-token
