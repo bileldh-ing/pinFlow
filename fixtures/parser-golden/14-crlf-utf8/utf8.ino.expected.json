@@ -1,0 +1,134 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        2,
+        2
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        4,
+        7
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        9,
+        14
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "utf8.ino",
+    "items": [
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "PIN",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "4"
+        },
+        "leadingComments": [
+          "// Température et humidité — capteur DHT11 🌡️",
+          "// Ünïcödé comments: 温度センサー"
+        ],
+        "trailingComment": "// broche « données »"
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "115200"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"Démarrage… ✓\""
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Call",
+                  "callee": "digitalRead",
+                  "args": [
+                    {
+                      "kind": "Ident",
+                      "name": "PIN"
+                    }
+                  ]
+                }
+              ]
+            },
+            "leadingComments": [
+              "/* bloc multi-ligne\n     avec accents: éèàç */"
+            ]
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "1000"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
