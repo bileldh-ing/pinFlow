@@ -1,0 +1,4 @@
+# arduino-cli 1.5.1 compile --fqbn esp32:esp32:esp32 --jobs 1 (esp32:esp32@3.3.12, DHT sensor library 1.4.7, Adafruit Unified Sensor 1.1.15)
+# run 2026-10-22 ~04:08-04:26 UTC on Linux arm64 2 vCPU, cold core cache, wall clock 1083 s, exit 0
+Sketch uses 274084 bytes (20%) of program storage space. Maximum is 1310720 bytes.
+Global variables use 22132 bytes (6%) of dynamic memory, leaving 305548 bytes for local variables. Maximum is 327680 bytes.
