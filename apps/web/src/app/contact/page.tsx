@@ -1,6 +1,9 @@
 import { LegalPage } from "@/components/LegalPage";
-export const metadata = { title: "Contact" };
+import { getT } from "@/i18n/server";
+
+export async function generateMetadata() { return { title: (await getT())("meta.contact") }; }
 export const dynamic = "force-dynamic";
-export default function Contact() {
-  return <LegalPage source={`# Contact\n\nQuestions, bug reports or a sketch that doesn’t convert the way you expect? Email **hello@pinflow.studio** (placeholder address — configure before launch) and include the sketch if you can. A status page is not available yet.\n`} />;
+export default async function Contact() {
+  const t = await getT();
+  return <LegalPage localized source={t("contact.body")} />;
 }
