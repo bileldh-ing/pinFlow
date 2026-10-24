@@ -1,0 +1,23 @@
+{
+  "$comment": "Hand-written expectations for spec 15.2. `raw` = sorted list of raw-preserved construct names expected; `identical` = generate(parse(src)) reproduces the file byte-for-byte. Normalized IR + coverage snapshots live next to each input as <file>.expected.json (regenerate with UPDATE_GOLDEN=1 pnpm --filter @pinflow/cpp-parser test, then review the diff).",
+  "fixtures": [
+    { "id": 1,  "dir": "01-dht11-esp32",     "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 2,  "dir": "02-blink",           "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 3,  "dir": "03-button-led",      "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 4,  "dir": "04-if-else",         "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 5,  "dir": "05-loops",           "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 6,  "dir": "06-functions",       "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 7,  "dir": "07-globals-arrays",  "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": false, "$why": "`int a, b = 2;` is split into two declarations (semantically identical)" },
+    { "id": 8,  "dir": "08-comments",        "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 9,  "dir": "09-tricky-strings",  "file": "input.ino",   "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 10, "dir": "10-preprocessor",    "file": "input.ino",   "ok": true, "coverage": "partially_visualized", "raw": ["preproc_function_def", "preproc_if", "preproc_ifdef", "preproc_ifdef"], "identical": true },
+    { "id": 11, "dir": "11-unknown-library", "file": "input.ino",   "ok": true, "coverage": "partially_visualized", "raw": ["unknown_function", "unknown_library_call", "unknown_library_call", "unknown_library_call", "unknown_library_call", "unknown_library_call", "unknown_library_call"], "identical": true },
+    { "id": 12, "dir": "12-unsupported-cpp", "file": "input.ino",   "ok": true, "coverage": "partially_visualized", "raw": ["auto", "cast_expression", "class_specifier", "enum_specifier", "initializer_list", "member_assignment", "pointer_declarator", "preproc_function_def", "preproc_function_def", "struct_specifier", "template_declaration", "unknown_function", "unknown_function", "unknown_library_call"], "identical": true },
+    { "id": 13, "dir": "13-malformed",       "file": "input.ino",   "ok": false, "coverage": "parse_error", "raw": [], "identical": false },
+    { "id": 14, "dir": "14-crlf-utf8",       "file": "crlf.ino",    "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true, "eol": "\r\n" },
+    { "id": 14, "dir": "14-crlf-utf8",       "file": "utf8.ino",    "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true },
+    { "id": 15, "dir": "15-multi-file",      "file": "main.ino",    "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true, "extraKnownFunctions": ["initLeds", "readLevel", "showLevel"] },
+    { "id": 15, "dir": "15-multi-file",      "file": "helpers.h",   "ok": true, "coverage": "raw_preserved", "raw": ["preproc_ifdef"], "identical": true },
+    { "id": 15, "dir": "15-multi-file",      "file": "helpers.cpp", "ok": true, "coverage": "fully_visualized", "raw": [], "identical": true }
+  ]
+}
