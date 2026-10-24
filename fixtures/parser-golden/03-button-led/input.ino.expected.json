@@ -1,0 +1,196 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        2,
+        2
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        4,
+        7
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        9,
+        17
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "BUTTON_PIN",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "2"
+        },
+        "leadingComments": [
+          "// Button on pin 2 (to GND, internal pull-up) controls an LED on pin 13."
+        ]
+      },
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "LED_PIN",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "13"
+        }
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "BUTTON_PIN"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "INPUT_PULLUP"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED_PIN"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "OUTPUT"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "state",
+            "init": {
+              "kind": "Call",
+              "callee": "digitalRead",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "BUTTON_PIN"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "If",
+            "branches": [
+              {
+                "cond": {
+                  "kind": "Binary",
+                  "op": "==",
+                  "left": {
+                    "kind": "Ident",
+                    "name": "state"
+                  },
+                  "right": {
+                    "kind": "Ident",
+                    "name": "LOW"
+                  }
+                },
+                "body": [
+                  {
+                    "kind": "ExprStmt",
+                    "expr": {
+                      "kind": "Call",
+                      "callee": "digitalWrite",
+                      "args": [
+                        {
+                          "kind": "Ident",
+                          "name": "LED_PIN"
+                        },
+                        {
+                          "kind": "Ident",
+                          "name": "HIGH"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ],
+            "elseBody": [
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "digitalWrite",
+                  "args": [
+                    {
+                      "kind": "Ident",
+                      "name": "LED_PIN"
+                    },
+                    {
+                      "kind": "Ident",
+                      "name": "LOW"
+                    }
+                  ]
+                }
+              }
+            ],
+            "leadingComments": [
+              "// Pressed = LOW because of the pull-up."
+            ]
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
