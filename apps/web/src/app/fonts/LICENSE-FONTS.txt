@@ -1,1 +1,2 @@
 Both fonts: SIL Open Font License 1.1 (Google Fonts). Plus Jakarta Sans by Tokotype; JetBrains Mono by JetBrains.
+Noto Sans Arabic (variable, Arabic subset): SIL Open Font License 1.1, by Google / Monotype (fetched via Fontsource).
