@@ -1,0 +1,193 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        0,
+        10
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        12,
+        15
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"braces { } and ;semicolons;\""
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"escaped \\\"quotes\\\" and \\\\ backslash\""
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"// not a comment /* nor this */\""
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"tab\\tnewline\\n\""
+                }
+              ]
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "char",
+            "isConst": false,
+            "name": "c",
+            "init": {
+              "kind": "CharLit",
+              "raw": "'}'"
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "char",
+            "isConst": false,
+            "name": "q",
+            "init": {
+              "kind": "CharLit",
+              "raw": "'\\''"
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "char",
+            "isConst": false,
+            "name": "nl",
+            "init": {
+              "kind": "CharLit",
+              "raw": "'\\n'"
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "print",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "c"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Call",
+                  "callee": "F",
+                  "args": [
+                    {
+                      "kind": "StringLit",
+                      "raw": "\"flash string with { brace\""
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "1000"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
