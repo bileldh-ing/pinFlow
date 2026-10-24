@@ -36,7 +36,7 @@ E2E_SCREENSHOTS=1 pnpm exec playwright test screenshots.spec.ts   # regenerates 
 DATABASE_URL=postgres://… pnpm --filter @pinflow/database test   # repositories against a real PostgreSQL
 PINFLOW_INTEGRATION_ESP32=1 pnpm --filter @pinflow/compile-worker test:integration
 ```
-E2E specs: `workbench.spec.ts` (DHT11 sync / raw preservation / syntax banner / save-reload / export, access control, no-worker honesty), `flows.spec.ts` (onboarding, every template, rename / duplicate / trash / restore / delete, history restore, ZIP export, `.ino` import, theme, layout modes, rail, zoom, phone tabs, zero console errors), `compile-real.spec.ts` (opt-in), `screenshots.spec.ts` (opt-in).
+E2E specs: `workbench.spec.ts` (DHT11 sync / raw preservation / syntax banner / save-reload / export, access control, no-worker honesty), `flows.spec.ts` (onboarding, every template, rename / duplicate / trash / restore / delete, history restore, ZIP export, `.ino` import, theme, layout modes, rail, zoom, phone tabs, zero console errors), `i18n.spec.ts` (French/Arabic switch on the landing page and in the workbench, `dir=rtl`, Accept-Language first visit, live block re-render with identical code, light/dark/system theme persistence; `E2E_SCREENSHOTS=1` also writes `docs/screenshots/i18n-*.png`), `compile-real.spec.ts` (opt-in), `screenshots.spec.ts` (opt-in).
 
 ## Using it
 1. Sign up, pick a board and a template (ESP32 + DHT11 is the guided one) or import an `.ino`/`.zip`.
@@ -44,6 +44,22 @@ E2E specs: `workbench.spec.ts` (DHT11 sync / raw preservation / syntax banner / 
 3. A syntax error keeps the last valid blocks with a banner until the code parses again.
 4. Compile sends the exact saved revision to the worker; diagnostics jump to the line and its block. Results go "outdated" when the code changes.
 5. Export `.ino` or a ZIP any time. History lets you diff, restore or duplicate a revision.
+
+## Languages (English · Français · العربية)
+The whole product is available in **English** (default and fallback), **French** and **Arabic** (right-to-left), mBlock-style: the globe button in every header (public site, auth pages, onboarding, dashboard/app header and the workbench top bar) switches the interface, every block's text, dropdown captions, tooltips, block context menus, the toolbox categories and block search — live, without losing the workspace. Next to it, a sun/moon menu chooses **light**, **dark** or **system** theme (Blockly and Monaco follow live).
+
+- **How the language is chosen:** `pf-locale` cookie (set by the switcher, also kept in `localStorage`) → `Accept-Language` on the first visit → English. The root layout renders `<html lang dir>` on the server, so there is no flash of the wrong language; Arabic sets `dir="rtl"` and uses the self-hosted Noto Sans Arabic font (OFL).
+- **UI text:** `apps/web/src/i18n/messages/{en,fr,ar}.ts` — flat, type-safe keys (`MessageKey` is derived from `en.ts`; a typo is a compile error). `useT()` in client components, `await getT()` in server components and server actions; missing keys fall back to English. Server validation messages are message keys translated per request.
+- **Block text:** `packages/block-definitions/src/i18n/{en,fr,ar}.ts` (`bm()`, `setBlockLocale()`, `localizeEntry()`, `searchToolbox(q, n, locale)` which matches the active language **and** English, accent-insensitive). Only display text is translated: block types, field names, field values, IDs, the IR and the generated C++ never depend on the language. Switching re-creates the Blockly workspace from its serialized state (Arabic in a Blockly `rtl: true` workspace) and loads Blockly's own core messages (`blockly/msg/fr`, `blockly/msg/ar`) for its context menus.
+- **Docs:** the getting-started page is translated; the generated parser coverage reference and the legal pages (terms, privacy) stay English with a short note.
+- **Tests:** dictionary + block-text completeness and placeholder checks, Accept-Language negotiation, and "every template generates byte-identical C++ after en → fr → ar → en" (`apps/web/test/i18n.test.ts`, `packages/block-definitions/test/i18n.test.ts`), plus `tests/e2e/i18n.spec.ts`.
+
+| | |
+|---|---|
+| ![Landing in Arabic](docs/screenshots/i18n-landing-ar.png) | ![Workbench in French, light](docs/screenshots/i18n-workbench-fr-light.png) |
+| Landing — Arabic, right-to-left | Workbench — French, light theme |
+| ![Workbench in Arabic, dark](docs/screenshots/i18n-workbench-ar-dark.png) | |
+| Workbench — Arabic, dark theme, RTL Blockly canvas | |
 
 ## Screenshots
 Warm liquid-glass UI (design tokens and rules: [docs/design-system.md](docs/design-system.md)). Captured from `next start` by `tests/e2e/screenshots.spec.ts`.
