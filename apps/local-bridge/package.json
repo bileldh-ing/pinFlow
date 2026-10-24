@@ -1,0 +1,18 @@
+{
+  "name": "@pinflow/local-bridge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "PinFlow local bridge: loopback-only board discovery + upload via the user's arduino-cli. Upload is NOT hardware-tested.",
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "@pinflow/compile-worker": "workspace:*"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15"
+  }
+}
