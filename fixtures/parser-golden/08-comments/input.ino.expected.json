@@ -1,0 +1,184 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Comment",
+      "lines": [
+        0,
+        3
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        6,
+        6
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Comment",
+      "lines": [
+        8,
+        8
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        11,
+        17
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        19,
+        23
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Comment",
+      "lines": [
+        24,
+        24
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "Comment",
+        "text": "/*\n * Multi-line header comment.\n * Author: PinFlow fixtures\n */"
+      },
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "LED",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "13"
+        },
+        "leadingComments": [
+          "// Pin configuration"
+        ],
+        "blankLineBefore": true,
+        "trailingComment": "// the built-in LED"
+      },
+      {
+        "kind": "Comment",
+        "text": "// Standalone comment before a blank line",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "OUTPUT"
+                }
+              ]
+            },
+            "leadingComments": [
+              "// leading comment for pinMode"
+            ],
+            "trailingComment": "/* inline block */"
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            },
+            "leadingComments": [
+              "// another section"
+            ],
+            "blankLineBefore": true
+          }
+        ],
+        "leadingComments": [
+          "/* block before setup */"
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "digitalWrite",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "HIGH"
+                }
+              ]
+            },
+            "trailingComment": "// on"
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "250"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "Comment",
+            "text": "// trailing comment at end of body"
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Comment",
+        "text": "// End of file comment"
+      }
+    ],
+    "eol": "\n"
+  }
+}
