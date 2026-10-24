@@ -1,0 +1,31 @@
+{
+  "compiler_out": "Sketch uses 924 bytes (2%) of program storage space. Maximum is 32256 bytes.\nGlobal variables use 9 bytes (0%) of dynamic memory, leaving 2039 bytes for local variables. Maximum is 2048 bytes.\n",
+  "compiler_err": "",
+  "builder_result": {
+    "build_path": "/tmp/pinflow-capture/build-blink-uno",
+    "executable_sections_size": [
+      {
+        "name": "text",
+        "size": 924,
+        "max_size": 32256
+      },
+      {
+        "name": "data",
+        "size": 9,
+        "max_size": 2048
+      }
+    ],
+    "board_platform": {
+      "id": "arduino:avr",
+      "version": "1.8.8",
+      "install_dir": "/opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8"
+    },
+    "build_platform": {
+      "id": "arduino:avr",
+      "version": "1.8.8",
+      "install_dir": "/opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8"
+    }
+  },
+  "upload_result": {},
+  "success": true
+}
