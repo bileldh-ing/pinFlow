@@ -154,12 +154,14 @@ test("workbench chrome: theme toggle, layout modes, rail panels, phone tabs", as
   await newFromTemplate(page, "dht11-esp32");
 
   // Theme
-  await page.getByRole("button", { name: "Switch to light theme" }).click();
+  await page.getByTestId("theme-toggle").click();
+  await page.getByRole("menuitemradio", { name: "Light" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.reload();
   await waitReady(page);
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-  await page.getByRole("button", { name: "Switch to dark theme" }).click();
+  await page.getByTestId("theme-toggle").click();
+  await page.getByRole("menuitemradio", { name: "Dark" }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
 
   // Layout modes
