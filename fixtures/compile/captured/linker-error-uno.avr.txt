@@ -1,0 +1,7 @@
+/tmp/ccMYH9Wh.ltrans0.ltrans.o: In function `setup':
+/tmp/pinflow-capture/linker-error-uno/linker-error-uno.ino:5: undefined reference to `notDefinedAnywhere(int)'
+collect2: error: ld returned 1 exit status
+
+Used platform Version Path
+arduino:avr   1.8.8   /opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8
+Error during build: exit status 1
