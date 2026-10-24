@@ -1,0 +1,263 @@
+{
+  "ok": true,
+  "ratio": 0.586,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        0,
+        0
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "ObjectDecl",
+      "lines": [
+        3,
+        3
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "ObjectDecl",
+      "lines": [
+        4,
+        4
+      ]
+    },
+    {
+      "coverage": "partially_visualized",
+      "construct": "Function",
+      "lines": [
+        6,
+        10
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        7,
+        7
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        8,
+        8
+      ]
+    },
+    {
+      "coverage": "partially_visualized",
+      "construct": "Function",
+      "lines": [
+        12,
+        20
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        13,
+        13
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        14,
+        14
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        15,
+        15
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        16,
+        16
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_function",
+      "lines": [
+        18,
+        18
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "Include",
+        "path": "Servo.h",
+        "system": true
+      },
+      {
+        "kind": "Include",
+        "path": "Adafruit_NeoPixel.h",
+        "system": true
+      },
+      {
+        "kind": "ObjectDecl",
+        "className": "Servo",
+        "name": "arm",
+        "args": [],
+        "hasParens": false,
+        "blankLineBefore": true
+      },
+      {
+        "kind": "ObjectDecl",
+        "className": "Adafruit_NeoPixel",
+        "name": "strip",
+        "args": [
+          {
+            "kind": "NumberLit",
+            "raw": "8"
+          },
+          {
+            "kind": "NumberLit",
+            "raw": "6"
+          },
+          {
+            "kind": "Binary",
+            "op": "+",
+            "left": {
+              "kind": "Ident",
+              "name": "NEO_GRB"
+            },
+            "right": {
+              "kind": "Ident",
+              "name": "NEO_KHZ800"
+            }
+          }
+        ],
+        "hasParens": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "RawStatement",
+            "text": "arm.attach(9);",
+            "reason": "arm.attach() belongs to a library PinFlow has no block pack for; kept as code."
+          },
+          {
+            "kind": "RawStatement",
+            "text": "strip.begin();",
+            "reason": "strip.begin() belongs to a library PinFlow has no block pack for; kept as code."
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "RawStatement",
+            "text": "arm.write(90);",
+            "reason": "arm.write() belongs to a library PinFlow has no block pack for; kept as code."
+          },
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "pos",
+            "init": {
+              "kind": "RawExpr",
+              "text": "arm.read()",
+              "reason": "arm.read() belongs to a library PinFlow has no block pack for; kept as code."
+            }
+          },
+          {
+            "kind": "RawStatement",
+            "text": "strip.setPixelColor(0, strip.Color(255, 0, 0));",
+            "reason": "strip.setPixelColor() belongs to a library PinFlow has no block pack for; kept as code."
+          },
+          {
+            "kind": "RawStatement",
+            "text": "strip.show();",
+            "reason": "strip.show() belongs to a library PinFlow has no block pack for; kept as code."
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "pos"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "RawStatement",
+            "text": "mysteryFunction(pos);",
+            "reason": "mysteryFunction() is not a known Arduino function or a function defined in this file; kept as code."
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "15"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
