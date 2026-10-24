@@ -7,7 +7,9 @@ import { AppHeader } from "@/components/app/AppHeader";
 import { ProjectSubnav } from "@/components/app/ProjectSubnav";
 import { HistoryClient } from "./client";
 
-export const metadata = { title: "History" };
+import { getT } from "@/i18n/server";
+
+export async function generateMetadata() { return { title: (await getT())("meta.history") }; }
 export const dynamic = "force-dynamic";
 
 export default async function HistoryPage({ params }: { params: Promise<{ id: string }> }) {
