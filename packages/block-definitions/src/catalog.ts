@@ -4,6 +4,8 @@
  * drift apart.
  */
 
+import { bm, type BlockLocale, type BlockMessageKey } from "./i18n";
+
 export type Category =
   | "structure" | "flow" | "logic" | "math" | "variables" | "pins"
   | "analog" | "time" | "serial" | "sensors" | "functions" | "advanced";
@@ -98,6 +100,21 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   functions: "Functions",
   advanced: "Advanced C++",
 };
+
+/** Category name in `locale` (default: the active block locale). */
+export function categoryLabel(cat: Category, locale?: BlockLocale): string {
+  return bm(`cat.${cat}` as BlockMessageKey, undefined, locale);
+}
+
+/** Friendly-call label template / tooltip / keywords in `locale` (default: active). */
+export function friendlyText(f: FriendlyCall, locale?: BlockLocale): { label: string; tooltip: string; keywords: string[] } {
+  const k = (s: string) => `fc.${f.type}.${s}` as BlockMessageKey;
+  return {
+    label: bm(k("label"), undefined, locale),
+    tooltip: bm(k("tip"), undefined, locale),
+    keywords: bm(k("kw"), undefined, locale).split(",").map((x) => x.trim()).filter(Boolean),
+  };
+}
 
 /** Block type -> category, for every block type (including friendly ones). */
 export const BLOCK_CATEGORY: Record<string, Category> = {
