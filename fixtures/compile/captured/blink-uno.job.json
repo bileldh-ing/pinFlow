@@ -1,0 +1,56 @@
+{
+  "jobId": "f36d0525-a583-44c5-b065-8fab6a51ff51",
+  "projectId": "proj_1",
+  "revisionId": "rev_1",
+  "fqbn": "arduino:avr:uno",
+  "sketchName": "blink-uno",
+  "sourceHash": "sha256:abc123",
+  "computedSourceHash": "sha256:80faf645ec1a5e62600ef14c2e74b3feed0d50fc6898f589aa1828434a2c72b1",
+  "status": "succeeded",
+  "createdAt": "2026-10-23T23:45:47.953Z",
+  "diagnostics": [],
+  "toolchain": {
+    "arduinoCli": "1.5.1",
+    "platform": {
+      "id": "arduino:avr",
+      "version": "1.8.8"
+    },
+    "libraries": [
+      {
+        "name": "DHT sensor library",
+        "version": "1.4.7"
+      },
+      {
+        "name": "Adafruit Unified Sensor",
+        "version": "1.1.15"
+      }
+    ],
+    "verified": true,
+    "buildPlatform": {
+      "id": "arduino:avr",
+      "version": "1.8.8"
+    }
+  },
+  "log": {
+    "text": "Sketch uses 924 bytes (2%) of program storage space. Maximum is 32256 bytes.\nGlobal variables use 9 bytes (0%) of dynamic memory, leaving 2039 bytes for local variables. Maximum is 2048 bytes.\n",
+    "truncated": false,
+    "bytes": 25014
+  },
+  "startedAt": "2026-10-23T23:45:47.955Z",
+  "sizes": {
+    "flash": {
+      "used": 924,
+      "percent": 2,
+      "max": 32256
+    },
+    "ram": {
+      "used": 9,
+      "percent": 0,
+      "freeForLocals": 2039,
+      "max": 2048
+    }
+  },
+  "exitCode": 0,
+  "finishedAt": "2026-10-23T23:45:49.443Z",
+  "durationMs": 1488
+}
