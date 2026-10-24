@@ -1,0 +1,419 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        0,
+        2
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        4,
+        6
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        8,
+        15
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        17,
+        19
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        21,
+        24
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        26,
+        33
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "Function",
+        "returnType": "int",
+        "name": "square",
+        "params": [
+          {
+            "type": "int",
+            "name": "x"
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "value": {
+              "kind": "Binary",
+              "op": "*",
+              "left": {
+                "kind": "Ident",
+                "name": "x"
+              },
+              "right": {
+                "kind": "Ident",
+                "name": "x"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "kind": "Function",
+        "returnType": "float",
+        "name": "average",
+        "params": [
+          {
+            "type": "int",
+            "name": "a"
+          },
+          {
+            "type": "int",
+            "name": "b"
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "value": {
+              "kind": "Binary",
+              "op": "/",
+              "left": {
+                "kind": "Paren",
+                "inner": {
+                  "kind": "Binary",
+                  "op": "+",
+                  "left": {
+                    "kind": "Ident",
+                    "name": "a"
+                  },
+                  "right": {
+                    "kind": "Ident",
+                    "name": "b"
+                  }
+                }
+              },
+              "right": {
+                "kind": "NumberLit",
+                "raw": "2.0"
+              }
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "blinkTimes",
+        "params": [
+          {
+            "type": "int",
+            "name": "pin"
+          },
+          {
+            "type": "int",
+            "name": "times"
+          }
+        ],
+        "body": [
+          {
+            "kind": "For",
+            "body": [
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "digitalWrite",
+                  "args": [
+                    {
+                      "kind": "Ident",
+                      "name": "pin"
+                    },
+                    {
+                      "kind": "Ident",
+                      "name": "HIGH"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "delay",
+                  "args": [
+                    {
+                      "kind": "NumberLit",
+                      "raw": "100"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "digitalWrite",
+                  "args": [
+                    {
+                      "kind": "Ident",
+                      "name": "pin"
+                    },
+                    {
+                      "kind": "Ident",
+                      "name": "LOW"
+                    }
+                  ]
+                }
+              },
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "delay",
+                  "args": [
+                    {
+                      "kind": "NumberLit",
+                      "raw": "100"
+                    }
+                  ]
+                }
+              }
+            ],
+            "init": {
+              "kind": "VarDecl",
+              "type": "int",
+              "isConst": false,
+              "name": "i",
+              "init": {
+                "kind": "NumberLit",
+                "raw": "0"
+              }
+            },
+            "cond": {
+              "kind": "Binary",
+              "op": "<",
+              "left": {
+                "kind": "Ident",
+                "name": "i"
+              },
+              "right": {
+                "kind": "Ident",
+                "name": "times"
+              }
+            },
+            "update": {
+              "kind": "Update",
+              "op": "++",
+              "prefix": false,
+              "target": {
+                "kind": "Ident",
+                "name": "i"
+              }
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "bool",
+        "name": "isEven",
+        "params": [
+          {
+            "type": "long",
+            "name": "n"
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "value": {
+              "kind": "Binary",
+              "op": "==",
+              "left": {
+                "kind": "Binary",
+                "op": "%",
+                "left": {
+                  "kind": "Ident",
+                  "name": "n"
+                },
+                "right": {
+                  "kind": "NumberLit",
+                  "raw": "2"
+                }
+              },
+              "right": {
+                "kind": "NumberLit",
+                "raw": "0"
+              }
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "13"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "OUTPUT"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "s",
+            "init": {
+              "kind": "Call",
+              "callee": "square",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "4"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "float",
+            "isConst": false,
+            "name": "m",
+            "init": {
+              "kind": "Call",
+              "callee": "average",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "s"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "3"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "If",
+            "branches": [
+              {
+                "cond": {
+                  "kind": "Call",
+                  "callee": "isEven",
+                  "args": [
+                    {
+                      "kind": "Ident",
+                      "name": "s"
+                    }
+                  ]
+                },
+                "body": [
+                  {
+                    "kind": "ExprStmt",
+                    "expr": {
+                      "kind": "Call",
+                      "callee": "blinkTimes",
+                      "args": [
+                        {
+                          "kind": "NumberLit",
+                          "raw": "13"
+                        },
+                        {
+                          "kind": "NumberLit",
+                          "raw": "2"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "m"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
