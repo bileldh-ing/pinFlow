@@ -1,0 +1,60 @@
+{
+  "jobId": "30ed5c35-01bc-4e6f-8036-5babca22c52a",
+  "projectId": "proj_1",
+  "revisionId": "rev_1",
+  "fqbn": "arduino:avr:uno",
+  "sketchName": "broken-uno",
+  "sourceHash": "sha256:abc123",
+  "computedSourceHash": "sha256:e82a428667183b48d9a053b87ee6f449bb6d02317e058439d757f1042153e97a",
+  "status": "failed",
+  "createdAt": "2026-10-23T23:45:49.575Z",
+  "diagnostics": [
+    {
+      "severity": "error",
+      "message": "'undeclaredLevel' was not declared in this scope",
+      "file": "broken-uno.ino",
+      "line": 10,
+      "column": 29,
+      "source": "compiler",
+      "raw": "broken-uno.ino:10:29: error: 'undeclaredLevel' was not declared in this scope"
+    },
+    {
+      "severity": "error",
+      "message": "exit status 1",
+      "source": "arduino-cli",
+      "raw": "Error during build: exit status 1"
+    }
+  ],
+  "toolchain": {
+    "arduinoCli": "1.5.1",
+    "platform": {
+      "id": "arduino:avr",
+      "version": "1.8.8"
+    },
+    "libraries": [
+      {
+        "name": "DHT sensor library",
+        "version": "1.4.7"
+      },
+      {
+        "name": "Adafruit Unified Sensor",
+        "version": "1.1.15"
+      }
+    ],
+    "verified": true,
+    "buildPlatform": {
+      "id": "arduino:avr",
+      "version": "1.8.8"
+    }
+  },
+  "log": {
+    "text": "broken-uno.ino: In function 'void loop()':\nbroken-uno.ino:10:29: error: 'undeclaredLevel' was not declared in this scope\n   digitalWrite(LED_BUILTIN, undeclaredLevel);\n                             ^~~~~~~~~~~~~~~\n\nError during build: exit status 1",
+    "truncated": false,
+    "bytes": 25586
+  },
+  "startedAt": "2026-10-23T23:45:49.575Z",
+  "exitCode": 1,
+  "finishedAt": "2026-10-23T23:45:50.839Z",
+  "durationMs": 1264,
+  "error": "'undeclaredLevel' was not declared in this scope"
+}
