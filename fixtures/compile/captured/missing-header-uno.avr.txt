@@ -1,0 +1,8 @@
+/tmp/pinflow-capture/missing-header-uno/missing-header-uno.ino:2:10: fatal error: NotARealLibrary.h: No such file or directory
+ #include <NotARealLibrary.h>
+          ^~~~~~~~~~~~~~~~~~~
+compilation terminated.
+
+Used platform Version Path
+arduino:avr   1.8.8   /opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8
+Error during build: exit status 1
