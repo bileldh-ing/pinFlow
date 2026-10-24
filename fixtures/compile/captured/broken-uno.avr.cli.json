@@ -1,0 +1,35 @@
+{
+  "compiler_out": "",
+  "compiler_err": "/tmp/pinflow-capture/broken-uno/broken-uno.ino: In function 'void loop()':\n/tmp/pinflow-capture/broken-uno/broken-uno.ino:10:29: error: 'undeclaredLevel' was not declared in this scope\n   digitalWrite(LED_BUILTIN, undeclaredLevel);\n                             ^~~~~~~~~~~~~~~\n",
+  "builder_result": {
+    "build_path": "/tmp/pinflow-capture/build-broken-uno",
+    "board_platform": {
+      "id": "arduino:avr",
+      "version": "1.8.8",
+      "install_dir": "/opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8"
+    },
+    "build_platform": {
+      "id": "arduino:avr",
+      "version": "1.8.8",
+      "install_dir": "/opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8"
+    },
+    "diagnostics": [
+      {
+        "severity": "ERROR",
+        "message": "'undeclaredLevel' was not declared in this scope\n   digitalWrite(LED_BUILTIN, undeclaredLevel);\n                             ^~~~~~~~~~~~~~~",
+        "file": "/tmp/pinflow-capture/broken-uno/broken-uno.ino",
+        "line": 10,
+        "column": 29,
+        "context": [
+          {
+            "message": "In function 'void loop()':",
+            "file": "/tmp/pinflow-capture/broken-uno/broken-uno.ino"
+          }
+        ]
+      }
+    ]
+  },
+  "upload_result": {},
+  "success": false,
+  "error": "Error during build: exit status 1"
+}
