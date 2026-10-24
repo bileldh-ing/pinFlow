@@ -1,5 +1,6 @@
 /** Toolbox (categories per spec 5.1) + searchable metadata. Pure data. */
-import { CATEGORY_LABELS, FRIENDLY_CALLS, type Category } from "./catalog";
+import { CATEGORY_LABELS, FRIENDLY_BY_TYPE, FRIENDLY_CALLS, categoryLabel, friendlyText, type Category } from "./catalog";
+import { BLOCK_MESSAGES_EN, bm, foldSearch, getBlockLocale, keywordList, type BlockLocale, type BlockMessageKey } from "./i18n";
 import type { BlockState } from "./state";
 
 export interface ToolboxEntry {
@@ -108,39 +109,78 @@ export const TOOLBOX_ENTRIES: ToolboxEntry[] = [
 
 export const CATEGORY_ORDER: Category[] = ["structure", "flow", "logic", "math", "variables", "pins", "analog", "time", "serial", "sensors", "functions", "advanced"];
 
-/** Blockly categoryToolbox JSON. */
-export function buildToolbox(): { kind: "categoryToolbox"; contents: Array<Record<string, unknown>> } {
+/** Display name of a friendly-call template (`%OBJ` -> "dht", inputs -> "…"). */
+function friendlyName(label: string): string {
+  return label.replace(/%OBJ/g, "dht").replace(/%[A-Z_]+/g, "…").replace(/\s+/g, " ").trim();
+}
+
+/**
+ * The entry with its name/description/keywords in `locale` (default: the
+ * active block locale). Key, type, preset and placement never change.
+ */
+export function localizeEntry(entry: ToolboxEntry, locale: BlockLocale = getBlockLocale()): ToolboxEntry {
+  if (locale === "en") return entry;
+  const f = FRIENDLY_BY_TYPE.get(entry.key);
+  if (f) {
+    const t = friendlyText(f, locale);
+    return { ...entry, name: friendlyName(t.label), description: t.tooltip, keywords: t.keywords };
+  }
+  const k = (p: string) => `tb.${entry.key}.${p}` as BlockMessageKey;
+  if (!(k("name") in BLOCK_MESSAGES_EN)) return entry;
+  return { ...entry, name: bm(k("name"), undefined, locale), description: bm(k("desc"), undefined, locale), keywords: keywordList(bm(k("kw"), undefined, locale)) };
+}
+
+/** All toolbox entries in `locale`. */
+export function localizedEntries(locale: BlockLocale = getBlockLocale()): ToolboxEntry[] {
+  return TOOLBOX_ENTRIES.map((e) => localizeEntry(e, locale));
+}
+
+/** Blockly categoryToolbox JSON (category names in `locale`, default: active). */
+export function buildToolbox(locale: BlockLocale = getBlockLocale()): { kind: "categoryToolbox"; contents: Array<Record<string, unknown>> } {
   return {
     kind: "categoryToolbox",
     contents: CATEGORY_ORDER.map((cat) => ({
       kind: "category",
-      name: CATEGORY_LABELS[cat],
+      name: categoryLabel(cat, locale),
       categorystyle: `${cat}_category`,
       contents: TOOLBOX_ENTRIES.filter((t) => t.category === cat).map((t) => ({ kind: "block", ...t.preset })),
     })),
   };
 }
 
-/** Rank toolbox entries for a query across names, keywords, descriptions and aliases. */
-export function searchToolbox(query: string, limit = 20): ToolboxEntry[] {
-  const q = query.trim().toLowerCase();
+const splitWords = (s: string) => foldSearch(s).split(/[\s,;:/()[\]{}.\-–—«»"'’]+/).filter(Boolean);
+
+function scoreEntry(t: ToolboxEntry, terms: string[], catLabel: string): number {
+  let score = 0;
+  const name = foldSearch(t.name);
+  for (const term of terms) {
+    const wordStart = (s: string) => splitWords(s).some((w) => w.startsWith(term));
+    if (name === term) score += 10;
+    else if (name.startsWith(term)) score += 6;
+    else if (name.includes(term)) score += 3;
+    if (t.aliases.some((a) => foldSearch(a).includes(term))) score += 5;
+    if (t.keywords.some((k) => foldSearch(k) === term)) score += 4;
+    else if (t.keywords.some(wordStart)) score += 3;
+    if (wordStart(t.description)) score += 1;
+    if (foldSearch(catLabel).includes(term)) score += 1;
+  }
+  return score;
+}
+
+/**
+ * Rank toolbox entries for a query across names, keywords, descriptions and
+ * aliases — in the active language AND in English, so "led", "humidité" and
+ * "رطوبة" all find their blocks. Returned entries are localized to `locale`.
+ */
+export function searchToolbox(query: string, limit = 20, locale: BlockLocale = getBlockLocale()): ToolboxEntry[] {
+  const q = foldSearch(query.trim());
   if (!q) return [];
   const terms = q.split(/\s+/);
-  const scored = TOOLBOX_ENTRIES.map((t) => {
-    let score = 0;
-    const name = t.name.toLowerCase();
-    for (const term of terms) {
-      const wordStart = (s: string) => s.toLowerCase().split(/[^a-z0-9_#+]+/).some((w) => w.startsWith(term));
-      if (name === term) score += 10;
-      else if (name.startsWith(term)) score += 6;
-      else if (name.includes(term)) score += 3;
-      if (t.aliases.some((a) => a.toLowerCase().includes(term))) score += 5;
-      if (t.keywords.some((k) => k.toLowerCase() === term)) score += 4;
-      else if (t.keywords.some(wordStart)) score += 3;
-      if (wordStart(t.description)) score += 1;
-      if (CATEGORY_LABELS[t.category].toLowerCase().includes(term)) score += 1;
-    }
-    return { t, score };
+  const scored = TOOLBOX_ENTRIES.map((en) => {
+    const loc = localizeEntry(en, locale);
+    const enScore = scoreEntry(en, terms, CATEGORY_LABELS[en.category]);
+    const locScore = locale === "en" ? 0 : scoreEntry(loc, terms, categoryLabel(en.category, locale));
+    return { t: loc, score: Math.max(enScore, locScore) };
   }).filter((x) => x.score > 0);
   scored.sort((a, b) => b.score - a.score || a.t.name.localeCompare(b.t.name));
   return scored.slice(0, limit).map((x) => x.t);
