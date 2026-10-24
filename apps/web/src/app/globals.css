@@ -10,6 +10,7 @@
    on (see docs/design-system.md) — body text >= 7:1, muted >= 4.5:1.
    --------------------------------------------------------------------------- */
 :root {
+  --pf-font-ui: var(--font-jakarta), "Plus Jakarta Sans", var(--font-arabic), "Noto Sans Arabic", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   color-scheme: dark;
   --bg: #0f0d0c;
   --bg-2: #171412;
@@ -118,7 +119,7 @@
   --color-danger: var(--danger);
   --color-ok: var(--ok);
   --color-info: var(--info);
-  --font-sans: var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--pf-font-ui), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: var(--font-jbmono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --radius-glass: var(--radius);
 }
@@ -128,7 +129,7 @@
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
 }
 
-html, body { background: var(--bg); color: var(--text); font-family: var(--font-sans); }
+html, body { background: var(--bg); color: var(--text); font-family: var(--pf-font-ui); }
 html { scroll-behavior: smooth; }
 body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; }
 ::selection { background: color-mix(in srgb, var(--accent-strong) 38%, transparent); }
@@ -205,7 +206,7 @@ button:focus-visible, a:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb,
 .blocklyToolboxDiv, .blocklyToolbox { background: var(--canvas-2) !important; border-right: 1px solid var(--border); padding: 6px 4px !important; }
 .blocklyTreeRow, .blocklyToolboxCategory { border-radius: 10px !important; border-left-width: 5px !important; margin: 2px 6px !important; height: 32px !important; line-height: 32px !important; padding-right: 12px !important; }
 .blocklyTreeRow:not(.blocklyTreeSelected):hover, .blocklyToolboxCategory:not(.blocklyToolboxSelected):hover { background: var(--surface-hover) !important; }
-.blocklyTreeLabel, .blocklyToolboxCategoryLabel { font-family: var(--font-sans) !important; font-size: 13px !important; font-weight: 600; color: var(--text) !important; }
+.blocklyTreeLabel, .blocklyToolboxCategoryLabel { font-family: var(--pf-font-ui) !important; font-size: 13px !important; font-weight: 600; color: var(--text) !important; }
 .blocklyTreeSelected .blocklyTreeLabel, .blocklyToolboxSelected .blocklyToolboxCategoryLabel { color: #fff !important; }
 @media (max-width: 767px) {
   .blocklyTreeRow, .blocklyToolboxCategory { margin: 2px 3px !important; padding-right: 6px !important; height: 30px !important; line-height: 30px !important; }
@@ -217,13 +218,13 @@ button:focus-visible, a:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb,
 .blocklyWidgetDiv .blocklyMenu, .blocklyDropDownDiv { border-radius: 14px !important; border: 1px solid var(--border) !important; box-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.55) !important; }
 .blocklyDropDownDiv { background-color: var(--surface-strong) !important; }
 .blocklyWidgetDiv .blocklyMenu { background: var(--surface-strong) !important; color: var(--text) !important; }
-.blocklyMenuItem { color: var(--text) !important; border-radius: 8px; font-family: var(--font-sans) !important; }
+.blocklyMenuItem { color: var(--text) !important; border-radius: 8px; font-family: var(--pf-font-ui) !important; }
 .blocklyMenuItemHighlight { background: var(--surface-hover) !important; }
-.blocklyHtmlInput { font-family: var(--font-sans) !important; }
+.blocklyHtmlInput { font-family: var(--pf-font-ui) !important; }
 .blocklyTooltipDiv { background: var(--surface-strong) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: none !important; }
 
 /* ------------------------------- code helpers ------------------------------ */
-.pf-code-highlight { background: color-mix(in srgb, var(--accent-strong) 16%, transparent); border-left: 2px solid var(--accent-strong); }
+.pf-code-highlight { background: color-mix(in srgb, var(--accent-strong) 16%, transparent); border-left: 2px solid var(--accent-strong); } /* Monaco is always LTR */
 .pf-code-raw { background: color-mix(in srgb, var(--warn) 9%, transparent); }
 
 /* Resizable panel handle */
@@ -238,13 +239,46 @@ button:focus-visible, a:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb,
 .prose-pf h2 { font-size: 1.35rem; font-weight: 700; margin: 2rem 0 0.75rem; letter-spacing: -0.01em; }
 .prose-pf h3 { font-size: 1.1rem; font-weight: 650; margin: 1.5rem 0 0.5rem; }
 .prose-pf p, .prose-pf li { color: var(--text-muted); line-height: 1.75; }
-.prose-pf ul { list-style: disc; padding-left: 1.4rem; margin: 0.5rem 0 1rem; }
-.prose-pf ol { list-style: decimal; padding-left: 1.4rem; margin: 0.5rem 0 1rem; }
+.prose-pf ul { list-style: disc; padding-inline-start: 1.4rem; margin: 0.5rem 0 1rem; }
+.prose-pf ol { list-style: decimal; padding-inline-start: 1.4rem; margin: 0.5rem 0 1rem; }
 .prose-pf code { font-family: var(--font-mono); font-size: 0.86em; background: var(--surface-hover); padding: 0.12em 0.4em; border-radius: 6px; color: var(--text); }
 .prose-pf pre { background: var(--canvas); border: 1px solid var(--border); padding: 1rem; border-radius: 16px; overflow-x: auto; margin: 1rem 0; }
 .prose-pf pre code { background: none; padding: 0; }
 .prose-pf table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; display: block; overflow-x: auto; }
-.prose-pf th, .prose-pf td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+.prose-pf th, .prose-pf td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: start; vertical-align: top; }
 .prose-pf th { background: var(--surface-hover); color: var(--text); }
 .prose-pf a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
-.prose-pf blockquote { border-left: 3px solid var(--accent-strong); padding-left: 1rem; color: var(--text-muted); }
+.prose-pf blockquote { border-inline-start: 3px solid var(--accent-strong); padding-inline-start: 1rem; color: var(--text-muted); }
+
+/* ------------------------------ i18n / RTL ------------------------------ */
+/* Arabic: the Arabic face leads so Arabic text gets matching metrics; Latin falls back to Jakarta. */
+html[lang="ar"] { --pf-font-ui: var(--font-arabic), "Noto Sans Arabic", var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif; }
+html[lang="ar"] body { letter-spacing: 0; line-height: 1.65; }
+html[lang="ar"] [class*="tracking-["], html[lang="ar"] .uppercase { letter-spacing: 0 !important; }
+.pf-font-ar { font-family: var(--font-arabic), "Noto Sans Arabic", var(--pf-font-ui); }
+/* Code is always left-to-right, whatever the UI direction. */
+pre, code, .monaco-editor, [data-testid="monaco-host"], .font-mono { direction: ltr; unicode-bidi: isolate; }
+[dir="rtl"] pre, [dir="rtl"] .font-mono { text-align: left; }
+/* Directional icons (arrows/chevrons) mirror in RTL. */
+[dir="rtl"] .pf-flip-rtl { transform: scaleX(-1); }
+/* Blockly RTL workspace: the toolbox sits on the right and the colour stripe moves with it. */
+.blocklyToolboxDiv[dir="RTL"], .blocklyToolbox[dir="RTL"] { border-right: 0 !important; border-left: 1px solid var(--border); }
+.blocklyToolboxDiv[dir="RTL"] .blocklyTreeRow, .blocklyToolboxDiv[dir="RTL"] .blocklyToolboxCategory,
+.blocklyToolbox[dir="RTL"] .blocklyToolboxCategory { border-left-width: 0 !important; border-right-width: 5px !important; padding-right: 0 !important; padding-left: 12px !important; }
+html[lang="ar"] .blocklyTreeLabel, html[lang="ar"] .blocklyToolboxCategoryLabel, html[lang="ar"] .blocklyMenuItem, html[lang="ar"] .blocklyTooltipDiv { font-family: var(--pf-font-ui) !important; }
+/* Pro dropdown menus (language + theme). */
+@keyframes pf-menu-in { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: none; } }
+.pf-menu { transform-origin: var(--radix-dropdown-menu-content-transform-origin); animation: pf-menu-in 160ms var(--ease) both; box-shadow: 0 22px 48px -18px rgb(0 0 0 / 0.55); }
+/* Smooth colour cross-fade while the theme switches (no layout animation). */
+html.pf-theme-switching, html.pf-theme-switching *, html.pf-theme-switching *::before, html.pf-theme-switching *::after {
+  transition: background-color 280ms var(--ease), border-color 280ms var(--ease), color 200ms var(--ease), fill 280ms var(--ease) !important;
+}
+/* Blockly's grid colour is fixed at inject time; follow the live theme instead. */
+:root { --pf-grid-line: #2a231e; }
+[data-theme="light"] { --pf-grid-line: #e9dfd5; }
+pattern[id^="blocklyGridPattern"] line { stroke: var(--pf-grid-line) !important; }
+/* RTL: editors park screen-reader helpers far to the LEFT (left:-999em), which in a
+   right-to-left document is the scrollable side and would widen the page by
+   thousands of pixels. Park them off the non-scrollable side instead. */
+[dir="rtl"] .monaco-aria-container, [dir="rtl"] .hiddenForAria { left: auto !important; right: -100000px !important; }
+html[dir="rtl"], html[dir="rtl"] body { overflow-x: clip; }
