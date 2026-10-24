@@ -1,0 +1,145 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        3,
+        5
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        7,
+        12
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "LED_PIN",
+        "init": {
+          "kind": "Ident",
+          "name": "LED_BUILTIN"
+        },
+        "leadingComments": [
+          "// Blink the on-board LED of an Arduino Uno once per second."
+        ]
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED_PIN"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "OUTPUT"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "digitalWrite",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED_PIN"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "HIGH"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "1000"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "digitalWrite",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED_PIN"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "LOW"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "1000"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
