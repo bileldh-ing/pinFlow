@@ -17,13 +17,14 @@ import { generate } from "@pinflow/arduino-codegen";
 import { SyncCoordinator } from "@pinflow/sync-engine";
 import { validateSketch, type Diagnostic } from "@pinflow/board-registry";
 import {
-  BLOCK_CATEGORY, CATEGORY_LABELS, TOOLBOX_ENTRIES, irToWorkspaceState, isRawBlockType, rootPositions, structuralKey, workspaceToIrDetailed,
+  BLOCK_CATEGORY, TOOLBOX_ENTRIES, categoryLabel, localizeEntry, irToWorkspaceState, isRawBlockType, rootPositions, structuralKey, workspaceToIrDetailed,
   type AdapterWarning, type BlockState, type ToolboxEntry, type WorkspaceState,
 } from "@pinflow/block-definitions";
 import { Blockly, getBlockExtra, setBlockText } from "@pinflow/block-definitions/blockly";
 import { ParserClient, type ParserMode } from "@/lib/parser-client";
 import { minimalEdit } from "@/lib/sync/text-edit";
 import { nodeAt, rangesFromParse, rangesFromSourceMap, type Range0, type RangeIndex } from "@/lib/sync/source-ranges";
+import { createT, type TFunction } from "@/i18n/translate";
 
 export interface CompileDiag { file: string; line: number; column: number; severity: string; message: string; }
 
@@ -104,6 +105,8 @@ let engineSeq = 0;
 
 export class WorkbenchEngine {
   readonly uid = ++engineSeq;
+  /** UI translator for user-facing engine messages; the workbench keeps it in sync with the active locale. */
+  t: TFunction = createT("en");
   private ws?: Blockly.WorkspaceSvg;
   private editor?: Monaco.editor.IStandaloneCodeEditor;
   private monaco?: typeof Monaco;
@@ -136,18 +139,55 @@ export class WorkbenchEngine {
   private blocklyDisposers: Array<() => void> = [];
   private monacoDisposers: Array<() => void> = [];
   private keptPositions?: Record<string, { x: number; y: number }>;
+  /** Full workspace state captured on detach (includes disconnected stacks), restored verbatim on re-attach. */
+  private keptState?: WorkspaceState;
+  private keptScale?: number;
 
   attachBlockly(ws: Blockly.WorkspaceSvg) {
     this.ws = ws;
-    if (this.coord) { // re-attach after a pane remount: restore blocks + layout
-      this.loadIntoBlockly(this.coord.file, this.keptPositions, !this.keptPositions);
+    if (this.coord) { // re-attach after a pane remount (e.g. language switch): restore blocks + layout
+      const kept = this.keptState;
+      this.keptState = undefined;
+      if (kept && this.restoreKeptState(ws, kept)) { this.applyBlockWarnings(); }
+      else this.loadIntoBlockly(this.coord.file, this.keptPositions, !this.keptPositions);
       this.wireBlockly();
     } else void this.maybeInit();
+  }
+
+  /**
+   * Re-create the exact previous workspace (same block IDs, fields, extra
+   * state, disconnected stacks) in a fresh — possibly translated / RTL —
+   * workspace. Only display text differs, so the IR and the code are
+   * untouched; no change events reach the sync pipeline.
+   */
+  private restoreKeptState(ws: Blockly.WorkspaceSvg, state: WorkspaceState): boolean {
+    this.loadingBlocks = true;
+    Blockly.Events.disable();
+    try {
+      Blockly.serialization.workspaces.load(state as never, ws, { recordUndo: false });
+      if (this.keptScale) ws.setScale(this.keptScale);
+      const content = ws.getMetricsManager().getContentMetrics();
+      const view = ws.getMetricsManager().getViewMetrics();
+      // Pin the content to the reading-start corner (top-left in LTR, top-right in RTL).
+      if (ws.RTL) ws.scroll(view.width - 20 - (content.left + content.width), 20 - content.top);
+      else ws.scroll(20 - content.left, 20 - content.top);
+      return true;
+    } catch {
+      return false;
+    } finally {
+      Blockly.Events.enable();
+      this.loadingBlocks = false;
+    }
   }
   /** Call before disposing a workspace so its layout survives a remount. */
   detachBlockly(ws: Blockly.WorkspaceSvg) {
     if (this.ws !== ws) return;
-    try { this.keptPositions = rootPositions(Blockly.serialization.workspaces.save(ws) as WorkspaceState); } catch { /* disposed */ }
+    try {
+      const st = Blockly.serialization.workspaces.save(ws) as WorkspaceState;
+      this.keptPositions = rootPositions(st);
+      this.keptState = this.coord ? st : undefined;
+      this.keptScale = ws.scale;
+    } catch { /* disposed */ }
     for (const d of this.blocklyDisposers) d();
     this.blocklyDisposers = [];
     this.ws = undefined;
@@ -390,10 +430,11 @@ export class WorkbenchEngine {
     if (!blk) return null;
     const type = blk.type;
     const extra = getBlockExtra(blk);
-    const entry = TOOLBOX_ENTRIES.find((t) => t.type === type);
+    const found = TOOLBOX_ENTRIES.find((t) => t.type === type);
+    const entry = found ? localizeEntry(found) : undefined;
     const cat = BLOCK_CATEGORY[type] ?? "advanced";
     return {
-      id, type, category: CATEGORY_LABELS[cat], name: entry?.name ?? type, raw: isRawBlockType(type),
+      id, type, category: categoryLabel(cat), name: entry?.name ?? type, raw: isRawBlockType(type),
       text: typeof extra.text === "string" ? extra.text : undefined, reason: typeof extra.reason === "string" ? extra.reason : undefined,
       range: this.ranges.get(id), diagnostics: this.view.boardDiagnostics.filter((d) => d.nodeId === id),
     };
@@ -513,10 +554,12 @@ export class WorkbenchEngine {
   /** Insert a toolbox entry, connected to the selected block when that is valid. */
   insertEntry(entry: ToolboxEntry): { ok: boolean; message: string } {
     const ws = this.ws;
-    if (!ws) return { ok: false, message: "Workspace not ready." };
+    const t = this.t;
+    entry = localizeEntry(entry);
+    if (!ws) return { ok: false, message: t("wb.insertNotReady") };
     const selected = Blockly.getSelected() as Blockly.BlockSvg | null;
     let blk: Blockly.BlockSvg;
-    try { blk = Blockly.serialization.blocks.append(entry.preset as never, ws) as Blockly.BlockSvg; } catch (e) { return { ok: false, message: `Could not create block: ${e instanceof Error ? e.message : String(e)}` }; }
+    try { blk = Blockly.serialization.blocks.append(entry.preset as never, ws) as Blockly.BlockSvg; } catch (e) { return { ok: false, message: t("wb.insertFailed", { error: e instanceof Error ? e.message : String(e) }) }; }
     const m = ws.getMetricsManager().getViewMetrics(true);
     blk.moveBy(m.left + 40 - blk.getRelativeToSurfaceXY().x, m.top + 40 - blk.getRelativeToSurfaceXY().y);
     if (selected && !selected.isDeadOrDying()) {
@@ -524,7 +567,7 @@ export class WorkbenchEngine {
         if (blk.previousConnection && selected.nextConnection && selected.nextConnection.getConnectionChecker().canConnect(selected.nextConnection, blk.previousConnection, false)) {
           selected.nextConnection.connect(blk.previousConnection);
           blk.select();
-          return { ok: true, message: `Inserted “${entry.name}” after the selected block.` };
+          return { ok: true, message: t("wb.insertAfter", { name: entry.name }) };
         }
         if (blk.outputConnection) {
           for (const input of selected.inputList) {
@@ -532,16 +575,16 @@ export class WorkbenchEngine {
             if (c && c.type === Blockly.ConnectionType.INPUT_VALUE && (!c.targetBlock() || c.targetBlock()!.isShadow()) && c.getConnectionChecker().canConnect(c, blk.outputConnection, false)) {
               c.connect(blk.outputConnection);
               blk.select();
-              return { ok: true, message: `Plugged “${entry.name}” into ${input.name}.` };
+              return { ok: true, message: t("wb.insertPlugged", { name: entry.name, input: input.name }) };
             }
           }
         }
       } catch { /* fall through to free placement */ }
     }
     blk.select();
-    if (entry.placement === "stmt") return { ok: true, message: `Placed “${entry.name}” on the canvas — drag it into setup() or loop(); disconnected blocks are not part of the code.` };
-    if (entry.placement === "value") return { ok: true, message: `Placed “${entry.name}” — plug it into a socket (select a block first to plug it in automatically).` };
-    return { ok: true, message: `Added “${entry.name}”.` };
+    if (entry.placement === "stmt") return { ok: true, message: t("wb.insertStmt", { name: entry.name }) };
+    if (entry.placement === "value") return { ok: true, message: t("wb.insertValue", { name: entry.name }) };
+    return { ok: true, message: t("wb.insertAdded", { name: entry.name }) };
   }
 
   /** Replace the verbatim text of a raw/comment block from the inspector. */
