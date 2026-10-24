@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   PinFlow "Warm Liquid Glass" design tokens.
+   Smoked grey-brown glass panels floating over a dark, warm ambient field with
+   orange glow; vivid orange primary, mint secondary. Dark is the default;
+   [data-theme="light"] is a warm frosted-light alternative. Every colour used
+   by components comes from these variables (Tailwind utilities map onto them).
+   Contrast: text tokens are checked against the darkest/lightest glass they sit
+   on (see docs/design-system.md) — body text >= 7:1, muted >= 4.5:1.
+   --------------------------------------------------------------------------- */
+:root {
+  color-scheme: dark;
+  --bg: #0f0d0c;
+  --bg-2: #171412;
+  --bg-3: #201c19;
+  --canvas: #161311;          /* opaque editor canvases (Blockly / Monaco) */
+  --canvas-2: #1c1815;
+  --surface: linear-gradient(180deg, rgb(132 120 108 / 0.34), rgb(96 88 80 / 0.26));
+  --surface-flat: rgb(108 98 89 / 0.30);
+  --surface-strong: rgb(44 39 35 / 0.94);
+  --surface-inner: rgb(255 244 232 / 0.055);
+  --surface-hover: rgb(255 240 225 / 0.085);
+  --border: rgb(255 238 220 / 0.11);
+  --border-strong: rgb(255 238 220 / 0.22);
+  --highlight: rgb(255 255 255 / 0.16);
+  --text: #f8f4f0;
+  --text-muted: #cdc1b6;
+  --text-faint: #b6a99c;
+  --accent: #ff8d3f;          /* text-safe orange (>= 4.5:1 on glass) */
+  --accent-strong: #ff7a1a;
+  --accent-ink: #1a0c03;
+  --accent-grad: linear-gradient(135deg, #ff8a2b 0%, #ff7a1a 45%, #f2600c 100%);
+  --accent-glow: rgb(255 122 26 / 0.55);
+  --accent-2: #5ef0c8;        /* mint */
+  --warn: #ffc857;
+  --warn-ink: #2a1c02;
+  --danger: #ff7b72;
+  --ok: #5ef0c8;
+  --info: #9fd5ff;
+  --scrim: rgb(14 11 9 / 0.38);
+  --shadow: inset 0 1px 0 var(--highlight), inset 0 0 0 1px rgb(255 255 255 / 0.02), 0 24px 60px -18px rgb(0 0 0 / 0.65), 0 2px 8px rgb(0 0 0 / 0.25);
+  --shadow-sm: inset 0 1px 0 var(--highlight), 0 10px 30px -12px rgb(0 0 0 / 0.55);
+  --blur: 30px;
+  --radius: 24px;
+  --radius-md: 18px;
+  --radius-sm: 12px;
+  --dur-fast: 120ms;
+  --dur: 180ms;
+  --dur-slow: 260ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --amb-1: rgb(255 112 24 / 0.34);
+  --amb-2: rgb(255 150 70 / 0.18);
+  --amb-3: rgb(94 240 200 / 0.07);
+  --amb-base: radial-gradient(140% 120% at 50% 0%, #1d1815 0%, #120f0d 55%, #0a0908 100%);
+  --grid-line: rgb(255 236 214 / 0.035);
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #efe7df;
+  --bg-2: #f6f0ea;
+  --bg-3: #ebe2d8;
+  --canvas: #fbf8f5;
+  --canvas-2: #f4eee8;
+  --surface: linear-gradient(180deg, rgb(255 252 248 / 0.78), rgb(250 243 236 / 0.62));
+  --surface-flat: rgb(255 250 245 / 0.66);
+  --surface-strong: rgb(255 251 247 / 0.97);
+  --surface-inner: rgb(120 80 40 / 0.045);
+  --surface-hover: rgb(120 70 30 / 0.07);
+  --border: rgb(90 60 30 / 0.12);
+  --border-strong: rgb(90 60 30 / 0.24);
+  --highlight: rgb(255 255 255 / 0.9);
+  --text: #21180f;
+  --text-muted: #574a40;
+  --text-faint: #6b5d52;
+  --accent: #b9440a;
+  --accent-strong: #e8590c;
+  --accent-ink: #1a0c03;
+  --accent-glow: rgb(255 122 26 / 0.35);
+  --accent-2: #0f7a5f;
+  --warn: #9a5b00;
+  --warn-ink: #ffffff;
+  --danger: #b42318;
+  --ok: #0f7a5f;
+  --info: #1d4ed8;
+  --scrim: rgb(255 250 245 / 0.4);
+  --shadow: inset 0 1px 0 var(--highlight), 0 24px 60px -24px rgb(90 50 20 / 0.28), 0 2px 8px rgb(90 50 20 / 0.06);
+  --shadow-sm: inset 0 1px 0 var(--highlight), 0 10px 30px -16px rgb(90 50 20 / 0.25);
+  --amb-1: rgb(255 140 60 / 0.30);
+  --amb-2: rgb(255 190 130 / 0.30);
+  --amb-3: rgb(94 220 190 / 0.12);
+  --amb-base: radial-gradient(140% 120% at 50% 0%, #f8f1ea 0%, #efe5db 60%, #e7dbcf 100%);
+  --grid-line: rgb(90 60 30 / 0.05);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-bg-3: var(--bg-3);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface-flat);
+  --color-surface-strong: var(--surface-strong);
+  --color-surface-inner: var(--surface-inner);
+  --color-surface-hover: var(--surface-hover);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent2: var(--accent-2);
+  --color-warn: var(--warn);
+  --color-warn-ink: var(--warn-ink);
+  --color-danger: var(--danger);
+  --color-ok: var(--ok);
+  --color-info: var(--info);
+  --font-sans: var(--font-jakarta), "Plus Jakarta Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-jbmono), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius-glass: var(--radius);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-fast: 0ms; --dur: 0ms; --dur-slow: 0ms; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+html, body { background: var(--bg); color: var(--text); font-family: var(--font-sans); }
+html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; overflow-x: hidden; }
+::selection { background: color-mix(in srgb, var(--accent-strong) 38%, transparent); }
+
+:focus-visible { outline: 2px solid var(--accent-strong); outline-offset: 2px; border-radius: 10px; }
+button:focus-visible, a:focus-visible { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent-strong) 25%, transparent); }
+
+/* ------------------------------ ambient field ------------------------------ */
+/* Fixed, GPU-friendly backdrop: warm glows + faint grain. No images. */
+.pf-ambient { position: relative; isolation: isolate; }
+.pf-ambient::before {
+  content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(42vw 38vw at 82% 8%, var(--amb-1), transparent 70%),
+    radial-gradient(36vw 32vw at 6% 72%, var(--amb-2), transparent 70%),
+    radial-gradient(30vw 26vw at 48% 108%, var(--amb-1), transparent 72%),
+    radial-gradient(26vw 22vw at 30% 18%, var(--amb-3), transparent 70%),
+    var(--amb-base);
+}
+.pf-ambient::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5  0 0 0 0 .45  0 0 0 0 .4  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+[data-theme="light"] .pf-ambient::after { opacity: 0.25; }
+
+.pf-gridlines {
+  background-image: linear-gradient(var(--grid-line) 1px, transparent 1px), linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(70% 60% at 50% 30%, #000 40%, transparent 100%);
+}
+
+/* ------------------------------- glass layers ------------------------------ */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  /* Unprefixed only: the CSS minifier collapses prefixed+unprefixed pairs and Chromium ignores the -webkit- form. */
+  backdrop-filter: blur(var(--blur)) saturate(1.35);
+}
+/* Same look, no backdrop-filter: used around/near the Blockly SVG and in dense lists. */
+.glass-noblur { background: var(--surface-strong); border: 1px solid var(--border); box-shadow: var(--shadow); }
+.glass-solid { background: var(--surface-strong); border: 1px solid var(--border); box-shadow: var(--shadow-sm); }
+.glass-inner { background: var(--surface-inner); border: 1px solid var(--border); border-radius: var(--radius-md); }
+@supports not (backdrop-filter: blur(1px)) {
+  .glass { background: var(--surface-strong); }
+}
+
+.pf-transition { transition: background-color var(--dur) var(--ease), color var(--dur) var(--ease), border-color var(--dur) var(--ease), opacity var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur-fast) var(--ease); }
+.pf-lift { transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease); will-change: transform; }
+.pf-lift:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+.pf-press:active { transform: scale(0.97); }
+
+.pf-accent-fill { background: var(--accent-grad); color: var(--accent-ink); }
+.pf-accent-glow { box-shadow: 0 0 0 1px rgb(255 255 255 / 0.18) inset, 0 8px 24px -6px var(--accent-glow); }
+.pf-text-grad { background: linear-gradient(100deg, #ffb27a 0%, #ff7a1a 45%, #f2600c 75%, #ffcf9e 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+[data-theme="light"] .pf-text-grad { background: linear-gradient(100deg, #c2410c, #e8590c 50%, #9a3412); -webkit-background-clip: text; background-clip: text; }
+
+/* Legacy alias kept for older markup */
+.pf-grid-bg { background: transparent; }
+
+.pf-mono, .blocklyText.pf-mono { font-family: var(--font-mono) !important; }
+
+/* Scroll-reveal fallback (motion drives the real animation) */
+@keyframes pf-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.pf-fade-up { animation: pf-fade-up var(--dur-slow) var(--ease) both; }
+@keyframes pf-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+/* --------------------------------- Blockly --------------------------------- */
+/* No backdrop-filter, filters or translucent overlays touch the Blockly SVG. */
+.blocklySvg, .injectionDiv { background: var(--canvas); }
+.blocklySelected > .blocklyPath { stroke: var(--accent-strong) !important; stroke-width: 2.5px !important; }
+.blocklyMainBackground { stroke: none !important; }
+.injectionDiv { border-radius: 0; }
+.blocklyToolboxDiv, .blocklyToolbox { background: var(--canvas-2) !important; border-right: 1px solid var(--border); padding: 6px 4px !important; }
+.blocklyTreeRow, .blocklyToolboxCategory { border-radius: 10px !important; border-left-width: 5px !important; margin: 2px 6px !important; height: 32px !important; line-height: 32px !important; padding-right: 12px !important; }
+.blocklyTreeRow:not(.blocklyTreeSelected):hover, .blocklyToolboxCategory:not(.blocklyToolboxSelected):hover { background: var(--surface-hover) !important; }
+.blocklyTreeLabel, .blocklyToolboxCategoryLabel { font-family: var(--font-sans) !important; font-size: 13px !important; font-weight: 600; color: var(--text) !important; }
+.blocklyTreeSelected .blocklyTreeLabel, .blocklyToolboxSelected .blocklyToolboxCategoryLabel { color: #fff !important; }
+@media (max-width: 767px) {
+  .blocklyTreeRow, .blocklyToolboxCategory { margin: 2px 3px !important; padding-right: 6px !important; height: 30px !important; line-height: 30px !important; }
+  .blocklyTreeLabel, .blocklyToolboxCategoryLabel { font-size: 11px !important; display: inline-block; max-width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; vertical-align: middle; }
+}
+.blocklyTreeIcon, .blocklyToolboxCategoryIcon { visibility: hidden; width: 4px !important; }
+.blocklyFlyoutBackground { fill-opacity: 0.98; }
+.blocklyScrollbarHandle { rx: 4; ry: 4; }
+.blocklyWidgetDiv .blocklyMenu, .blocklyDropDownDiv { border-radius: 14px !important; border: 1px solid var(--border) !important; box-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.55) !important; }
+.blocklyDropDownDiv { background-color: var(--surface-strong) !important; }
+.blocklyWidgetDiv .blocklyMenu { background: var(--surface-strong) !important; color: var(--text) !important; }
+.blocklyMenuItem { color: var(--text) !important; border-radius: 8px; font-family: var(--font-sans) !important; }
+.blocklyMenuItemHighlight { background: var(--surface-hover) !important; }
+.blocklyHtmlInput { font-family: var(--font-sans) !important; }
+.blocklyTooltipDiv { background: var(--surface-strong) !important; color: var(--text) !important; border: 1px solid var(--border) !important; border-radius: 10px !important; box-shadow: none !important; }
+
+/* ------------------------------- code helpers ------------------------------ */
+.pf-code-highlight { background: color-mix(in srgb, var(--accent-strong) 16%, transparent); border-left: 2px solid var(--accent-strong); }
+.pf-code-raw { background: color-mix(in srgb, var(--warn) 9%, transparent); }
+
+/* Resizable panel handle */
+.pf-handle { position: relative; width: 10px; background: transparent; }
+.pf-handle::after { content: ""; position: absolute; top: 40%; bottom: 40%; left: 4px; width: 2px; border-radius: 2px; background: var(--border-strong); transition: background var(--dur) var(--ease), top var(--dur) var(--ease), bottom var(--dur) var(--ease); }
+.pf-handle:hover::after, .pf-handle[data-resize-handle-state="drag"]::after, .pf-handle:focus-visible::after { background: var(--accent-strong); top: 20%; bottom: 20%; }
+
+/* Thin warm scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--border-strong) transparent; }
+
+.prose-pf h1 { font-size: 2.1rem; font-weight: 700; margin: 1.5rem 0 1rem; letter-spacing: -0.025em; }
+.prose-pf h2 { font-size: 1.35rem; font-weight: 700; margin: 2rem 0 0.75rem; letter-spacing: -0.01em; }
+.prose-pf h3 { font-size: 1.1rem; font-weight: 650; margin: 1.5rem 0 0.5rem; }
+.prose-pf p, .prose-pf li { color: var(--text-muted); line-height: 1.75; }
+.prose-pf ul { list-style: disc; padding-left: 1.4rem; margin: 0.5rem 0 1rem; }
+.prose-pf ol { list-style: decimal; padding-left: 1.4rem; margin: 0.5rem 0 1rem; }
+.prose-pf code { font-family: var(--font-mono); font-size: 0.86em; background: var(--surface-hover); padding: 0.12em 0.4em; border-radius: 6px; color: var(--text); }
+.prose-pf pre { background: var(--canvas); border: 1px solid var(--border); padding: 1rem; border-radius: 16px; overflow-x: auto; margin: 1rem 0; }
+.prose-pf pre code { background: none; padding: 0; }
+.prose-pf table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; display: block; overflow-x: auto; }
+.prose-pf th, .prose-pf td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; vertical-align: top; }
+.prose-pf th { background: var(--surface-hover); color: var(--text); }
+.prose-pf a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.prose-pf blockquote { border-left: 3px solid var(--accent-strong); padding-left: 1rem; color: var(--text-muted); }
