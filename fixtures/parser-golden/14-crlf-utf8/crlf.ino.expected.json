@@ -1,0 +1,116 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        3,
+        5
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        7,
+        10
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "crlf.ino",
+    "items": [
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "LED",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "13"
+        },
+        "leadingComments": [
+          "// CRLF sketch"
+        ]
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "OUTPUT"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "digitalWrite",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "HIGH"
+                }
+              ]
+            },
+            "trailingComment": "// allumé"
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "500"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\r\n"
+  }
+}
