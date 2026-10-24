@@ -1,0 +1,253 @@
+{
+  "ok": true,
+  "ratio": 0.4611,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        0,
+        0
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        2,
+        2
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Define",
+      "lines": [
+        3,
+        3
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Define",
+      "lines": [
+        4,
+        4
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Define",
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_function_def",
+      "lines": [
+        6,
+        6
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_ifdef",
+      "lines": [
+        8,
+        13
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_if",
+      "lines": [
+        15,
+        19
+      ]
+    },
+    {
+      "coverage": "partially_visualized",
+      "construct": "Function",
+      "lines": [
+        21,
+        27
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_ifdef",
+      "lines": [
+        23,
+        25
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        29,
+        33
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "Include",
+        "path": "Arduino.h",
+        "system": true
+      },
+      {
+        "kind": "Include",
+        "path": "Wire.h",
+        "system": true
+      },
+      {
+        "kind": "Include",
+        "path": "config.h",
+        "system": false
+      },
+      {
+        "kind": "Define",
+        "name": "BAUD",
+        "value": "115200"
+      },
+      {
+        "kind": "Define",
+        "name": "LED_PIN",
+        "value": "2"
+      },
+      {
+        "kind": "Define",
+        "name": "DEBUG",
+        "value": ""
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "#define SQUARE(x) ((x) * (x))",
+        "reason": "Function-like macros are preserved verbatim; their expansion is not analysed."
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "#ifdef ESP32\n#include <WiFi.h>\nconst int ADC_PIN = 34;\n#else\nconst int ADC_PIN = A0;\n#endif",
+        "reason": "Conditional compilation (#ifdef/#ifndef) is preserved verbatim because each branch may target a different board.",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "#if defined(ARDUINO_ARCH_AVR)\n#define BOARD_NAME \"AVR\"\n#elif defined(ARDUINO_ARCH_ESP32)\n#define BOARD_NAME \"ESP32\"\n#endif",
+        "reason": "Conditional compilation (#if/#elif) is preserved verbatim because each branch may target a different board.",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "BAUD"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "RawStatement",
+            "text": "#ifdef DEBUG\n  Serial.println(\"debug on\");\n#endif",
+            "reason": "Conditional compilation (#ifdef/#ifndef) is preserved verbatim because each branch may target a different board."
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "pinMode",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "LED_PIN"
+                },
+                {
+                  "kind": "Ident",
+                  "name": "OUTPUT"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "v",
+            "init": {
+              "kind": "Call",
+              "callee": "analogRead",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "ADC_PIN"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "v"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "100"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
