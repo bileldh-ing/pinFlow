@@ -7,7 +7,9 @@ import { repos } from "@/server/db";
 import { ClientWorkbench } from "@/components/workbench/ClientWorkbench";
 import type { LayoutMode } from "@/components/workbench/Workbench";
 
-export const metadata = { title: "Workbench" };
+import { getT } from "@/i18n/server";
+
+export async function generateMetadata() { return { title: (await getT())("meta.workbench") }; }
 export const dynamic = "force-dynamic";
 
 export default async function EditorPage({ params }: { params: Promise<{ id: string }> }) {
