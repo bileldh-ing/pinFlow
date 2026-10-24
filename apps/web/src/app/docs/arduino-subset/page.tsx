@@ -1,10 +1,11 @@
 import { DocShell } from "@/components/DocShell";
 import { Markdown } from "@/components/Markdown";
 import { getCurrentUser } from "@/server/auth";
+import { getI18n } from "@/i18n/server";
 import { PARSER_COVERAGE_MD } from "@/generated/parser-coverage";
-import { FRIENDLY_CALLS, CATEGORY_LABELS } from "@pinflow/block-definitions";
+import { FRIENDLY_CALLS, categoryLabel, friendlyText } from "@pinflow/block-definitions";
 
-export const metadata = { title: "Supported Arduino C++ subset" };
+export async function generateMetadata() { return { title: (await getI18n()).t("meta.subset") }; }
 export const dynamic = "force-dynamic";
 
 const FALLBACK = `# PinFlow Arduino Visual Subset v1
@@ -18,6 +19,9 @@ The detailed parser coverage document (\`docs/parser-coverage.md\`) is not prese
 
 export default async function SubsetPage() {
   const user = await getCurrentUser().catch(() => null);
-  const table = `\n\n## Friendly API blocks\n\n| Block | C++ | Category |\n|---|---|---|\n${FRIENDLY_CALLS.map((f) => `| ${f.label.replace(/%OBJ/g, "dht").replace(/%([A-Z_]+)/g, (_m, n: string) => n.toLowerCase()).replace(/\|/g, "/")} | \`${f.callee ?? `${f.object ?? "dht"}.${f.method}`}(${f.args.map((a) => a.toLowerCase()).join(", ")})\` | ${CATEGORY_LABELS[f.category]} |`).join("\n")}\n\nAny other call is shown as a generic *call* / *object.method()* block, so it stays editable.`;
-  return <DocShell signedIn={!!user}><Markdown source={(PARSER_COVERAGE_MD ?? FALLBACK) + table} /></DocShell>;
+  const { locale, t } = await getI18n();
+  // The friendly-block table follows the UI language (block captions + categories); the parser reference stays English.
+  const table = `\n\n## ${t("docs.friendlyTitle")}\n\n| ${t("docs.colBlock")} | C++ | ${t("docs.colCategory")} |\n|---|---|---|\n${FRIENDLY_CALLS.map((f) => `| ${friendlyText(f, locale).label.replace(/%OBJ/g, "dht").replace(/%([A-Z_]+)/g, (_m, n: string) => n.toLowerCase()).replace(/\|/g, "/")} | \`${f.callee ?? `${f.object ?? "dht"}.${f.method}`}(${f.args.map((a) => a.toLowerCase()).join(", ")})\` | ${categoryLabel(f.category, locale)} |`).join("\n")}\n\n${t("docs.friendlyNote")}`;
+  const note = locale === "en" ? "" : `> ${t("docs.englishOnly")}\n\n`;
+  return <DocShell signedIn={!!user}><div lang={locale === "en" ? undefined : "en"} dir="ltr"><Markdown source={note + (PARSER_COVERAGE_MD ?? FALLBACK)} /></div><div><Markdown source={table} /></div></DocShell>;
 }
