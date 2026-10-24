@@ -1,0 +1,291 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        0,
+        0
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        2,
+        2
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        4,
+        8
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        10,
+        12
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        14,
+        18
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "helpers.cpp",
+    "items": [
+      {
+        "kind": "Include",
+        "path": "helpers.h",
+        "system": false
+      },
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "LEDS",
+        "arraySize": "3",
+        "arrayInit": [
+          {
+            "kind": "NumberLit",
+            "raw": "9"
+          },
+          {
+            "kind": "NumberLit",
+            "raw": "10"
+          },
+          {
+            "kind": "NumberLit",
+            "raw": "11"
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "initLeds",
+        "params": [],
+        "body": [
+          {
+            "kind": "For",
+            "body": [
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "pinMode",
+                  "args": [
+                    {
+                      "kind": "Index",
+                      "target": {
+                        "kind": "Ident",
+                        "name": "LEDS"
+                      },
+                      "index": {
+                        "kind": "Ident",
+                        "name": "i"
+                      }
+                    },
+                    {
+                      "kind": "Ident",
+                      "name": "OUTPUT"
+                    }
+                  ]
+                }
+              }
+            ],
+            "init": {
+              "kind": "VarDecl",
+              "type": "int",
+              "isConst": false,
+              "name": "i",
+              "init": {
+                "kind": "NumberLit",
+                "raw": "0"
+              }
+            },
+            "cond": {
+              "kind": "Binary",
+              "op": "<",
+              "left": {
+                "kind": "Ident",
+                "name": "i"
+              },
+              "right": {
+                "kind": "NumberLit",
+                "raw": "3"
+              }
+            },
+            "update": {
+              "kind": "Update",
+              "op": "++",
+              "prefix": false,
+              "target": {
+                "kind": "Ident",
+                "name": "i"
+              }
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "int",
+        "name": "readLevel",
+        "params": [
+          {
+            "type": "int",
+            "name": "pin"
+          }
+        ],
+        "body": [
+          {
+            "kind": "Return",
+            "value": {
+              "kind": "Call",
+              "callee": "map",
+              "args": [
+                {
+                  "kind": "Call",
+                  "callee": "analogRead",
+                  "args": [
+                    {
+                      "kind": "Ident",
+                      "name": "pin"
+                    }
+                  ]
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "1023"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "3"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "showLevel",
+        "params": [
+          {
+            "type": "int",
+            "name": "level"
+          }
+        ],
+        "body": [
+          {
+            "kind": "For",
+            "body": [
+              {
+                "kind": "ExprStmt",
+                "expr": {
+                  "kind": "Call",
+                  "callee": "digitalWrite",
+                  "args": [
+                    {
+                      "kind": "Index",
+                      "target": {
+                        "kind": "Ident",
+                        "name": "LEDS"
+                      },
+                      "index": {
+                        "kind": "Ident",
+                        "name": "i"
+                      }
+                    },
+                    {
+                      "kind": "Ternary",
+                      "cond": {
+                        "kind": "Binary",
+                        "op": "<",
+                        "left": {
+                          "kind": "Ident",
+                          "name": "i"
+                        },
+                        "right": {
+                          "kind": "Ident",
+                          "name": "level"
+                        }
+                      },
+                      "then": {
+                        "kind": "Ident",
+                        "name": "HIGH"
+                      },
+                      "else": {
+                        "kind": "Ident",
+                        "name": "LOW"
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "init": {
+              "kind": "VarDecl",
+              "type": "int",
+              "isConst": false,
+              "name": "i",
+              "init": {
+                "kind": "NumberLit",
+                "raw": "0"
+              }
+            },
+            "cond": {
+              "kind": "Binary",
+              "op": "<",
+              "left": {
+                "kind": "Ident",
+                "name": "i"
+              },
+              "right": {
+                "kind": "NumberLit",
+                "raw": "3"
+              }
+            },
+            "update": {
+              "kind": "Update",
+              "op": "++",
+              "prefix": false,
+              "target": {
+                "kind": "Ident",
+                "name": "i"
+              }
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
