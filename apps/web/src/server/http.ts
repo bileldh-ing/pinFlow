@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { ConflictError, NotFoundError, ValidationError } from "@pinflow/database";
 import { ZodError } from "zod";
 import { assertSameOrigin, getCurrentUser, type CurrentUser } from "./auth";
+import { getT } from "@/i18n/server";
+import { tMaybe } from "@/i18n/content";
 
 export function json(data: unknown, status = 200) { return NextResponse.json(data, { status, headers: { "Cache-Control": "no-store" } }); }
 
@@ -18,7 +20,7 @@ export function route<C>(fn: (req: Request, user: CurrentUser, ctx: C) => Promis
       if (e instanceof ConflictError) return json({ error: "conflict", currentRevision: e.currentRevision }, 409);
       if (e instanceof NotFoundError) return json({ error: "not_found" }, 404);
       if (e instanceof ValidationError) return json({ error: "validation", message: e.message }, 400);
-      if (e instanceof ZodError) return json({ error: "validation", message: e.issues.map((i) => i.message).join("; ") }, 400);
+      if (e instanceof ZodError) { const t = await getT(); return json({ error: "validation", message: e.issues.map((i) => tMaybe(t, i.message)).join("; ") }, 400); }
       console.error("[pinflow:route]", e);
       return json({ error: "internal" }, 500);
     }
