@@ -1,0 +1,306 @@
+{
+  "ok": true,
+  "ratio": 0.2319,
+  "coverage": [
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_function_def",
+      "lines": [
+        0,
+        0
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_function_def",
+      "lines": [
+        1,
+        2
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "template_declaration",
+      "lines": [
+        4,
+        7
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "class_specifier",
+      "lines": [
+        9,
+        14
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "struct_specifier",
+      "lines": [
+        16,
+        19
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "enum_specifier",
+      "lines": [
+        21,
+        21
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "ObjectDecl",
+      "lines": [
+        23,
+        23
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "pointer_declarator",
+      "lines": [
+        24,
+        24
+      ]
+    },
+    {
+      "coverage": "partially_visualized",
+      "construct": "Function",
+      "lines": [
+        26,
+        30
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "auto",
+      "lines": [
+        28,
+        28
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_function",
+      "lines": [
+        29,
+        29
+      ]
+    },
+    {
+      "coverage": "partially_visualized",
+      "construct": "Function",
+      "lines": [
+        32,
+        39
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_library_call",
+      "lines": [
+        33,
+        33
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "cast_expression",
+      "lines": [
+        34,
+        34
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "unknown_function",
+      "lines": [
+        35,
+        35
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "initializer_list",
+      "lines": [
+        36,
+        36
+      ]
+    },
+    {
+      "coverage": "raw_preserved",
+      "construct": "member_assignment",
+      "lines": [
+        37,
+        37
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "RawTopLevel",
+        "text": "#define MAX_OF(a, b) ((a) > (b) ? (a) : (b))",
+        "reason": "Function-like macros are preserved verbatim; their expansion is not analysed."
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "#define LOG(msg) \\\n  Serial.println(msg)",
+        "reason": "Function-like macros are preserved verbatim; their expansion is not analysed."
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "template <typename T>\nT clampValue(T v, T lo, T hi) {\n  return v < lo ? lo : (v > hi ? hi : v);\n}",
+        "reason": "Templates are not part of the PinFlow visual subset; the code is kept exactly as written.",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "class Counter {\n public:\n  Counter() : count(0) {}\n  void inc() { count++; }\n  int count;\n};",
+        "reason": "Class definitions are an advanced feature and are not flattened into blocks.",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "struct Point {\n  int x;\n  int y;\n};",
+        "reason": "Struct definitions are an advanced feature and are not flattened into blocks.",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "enum Mode { IDLE, RUN };",
+        "reason": "Enumerations are an advanced feature in v1 and are kept as written.",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "ObjectDecl",
+        "className": "Counter",
+        "name": "counter",
+        "args": [],
+        "hasParens": false,
+        "blankLineBefore": true
+      },
+      {
+        "kind": "RawTopLevel",
+        "text": "int *ptr = nullptr;",
+        "reason": "Pointer and reference declarations are preserved as code."
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "RawStatement",
+            "text": "auto twice = [](int v) { return v * 2; };",
+            "reason": "auto-typed declarations are preserved as code."
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "RawExpr",
+                  "text": "twice(3)",
+                  "reason": "twice() is not a known Arduino function or a function defined in this file; kept as code."
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "RawStatement",
+            "text": "counter.inc();",
+            "reason": "counter.inc() belongs to a library PinFlow has no block pack for; kept as code."
+          },
+          {
+            "kind": "VarDecl",
+            "type": "long",
+            "isConst": false,
+            "name": "scaled",
+            "init": {
+              "kind": "Binary",
+              "op": "*",
+              "left": {
+                "kind": "RawExpr",
+                "text": "(long)counter.count",
+                "reason": "Type casts are preserved as code because their semantics are not modelled in v1."
+              },
+              "right": {
+                "kind": "NumberLit",
+                "raw": "3"
+              }
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "biggest",
+            "init": {
+              "kind": "RawExpr",
+              "text": "MAX_OF(1, 2)",
+              "reason": "MAX_OF() is not a known Arduino function or a function defined in this file; kept as code."
+            }
+          },
+          {
+            "kind": "RawStatement",
+            "text": "Point p = {1, 2};",
+            "reason": "Brace initialisation of a scalar is preserved as code."
+          },
+          {
+            "kind": "RawStatement",
+            "text": "p.x = 5;",
+            "reason": "Assignments to members or through pointers are preserved as code."
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "10"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
