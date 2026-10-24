@@ -65,14 +65,14 @@ export function usePersistence(engine: WorkbenchEngine | null, project: ProjectI
       try {
         const res = await fetch(`/api/projects/${project.id}/save`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
         if (res.status === 409) { const j = await res.json().catch(() => ({})); dispatch({ type: "SAVE_CONFLICT", currentRevision: Number(j.currentRevision ?? 0) }); return null; }
-        if (res.status === 401) { dispatch({ type: "SAVE_FAIL", error: "Your session expired — sign in again (your changes are kept locally)." }); return null; }
+        if (res.status === 401) { dispatch({ type: "SAVE_FAIL", error: "save.errSession" }); return null; }
         if (!res.ok) { const j = await res.json().catch(() => ({})); dispatch({ type: "SAVE_FAIL", error: String(j.message ?? `HTTP ${res.status}`) }); return null; }
         const j = (await res.json()) as { revision: number };
         dispatch({ type: "SAVE_OK", revision: j.revision });
         if (JSON.stringify(filesNow()) === JSON.stringify(files)) await clearDraft(project.id).catch(() => undefined);
         return j.revision;
       } catch {
-        dispatch({ type: navigator.onLine ? "SAVE_FAIL" : "OFFLINE", error: "Network error while saving." } as never);
+        dispatch({ type: navigator.onLine ? "SAVE_FAIL" : "OFFLINE", error: "save.errNetwork" } as never);
         return null;
       }
     })();
@@ -151,7 +151,7 @@ export function usePersistence(engine: WorkbenchEngine | null, project: ProjectI
         if (Array.isArray(j.diagnostics)) engine?.setCompileDiagnostics(j.diagnostics);
         if (!TERMINAL.has(j.status)) poll(jobId);
       } catch {
-        setCompile((c) => ({ ...c, status: "error", error: "Lost connection while waiting for the compiler." }));
+        setCompile((c) => ({ ...c, status: "error", error: "compile.errLost" }));
       }
     }, 1500);
   }, [project, engine]);
@@ -161,16 +161,16 @@ export function usePersistence(engine: WorkbenchEngine | null, project: ProjectI
     setCompile({ status: "saving", diagnostics: [], startedAt: Date.now() });
     engine.setCompileDiagnostics([]);
     const rev = await doSave();
-    if (rev == null) { setCompile({ status: "error", diagnostics: [], error: "Save your changes first (the project is offline, in conflict, or the save failed)." }); return; }
+    if (rev == null) { setCompile({ status: "error", diagnostics: [], error: "compile.errSaveFirst" }); return; }
     try {
       const res = await fetch(`/api/projects/${project.id}/compile`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ expectedRevision: rev }) });
       const j = await res.json().catch(() => ({}));
-      if (res.status === 409) { setCompile({ status: "error", diagnostics: [], error: "The project changed on the server; reload before compiling." }); return; }
+      if (res.status === 409) { setCompile({ status: "error", diagnostics: [], error: "compile.errChanged" }); return; }
       if (!res.ok && !j.jobId) { setCompile({ status: "error", diagnostics: [], error: String(j.message ?? j.error ?? `HTTP ${res.status}`) }); return; }
       setCompile({ status: j.status ?? "queued", jobId: j.jobId, revision: j.revision, sourceHash: j.sourceHash, diagnostics: [], error: j.error ?? null, startedAt: Date.now() });
       if (j.jobId && !TERMINAL.has(j.status)) poll(j.jobId);
     } catch {
-      setCompile({ status: "error", diagnostics: [], error: "Could not reach PinFlow to start the compile." });
+      setCompile({ status: "error", diagnostics: [], error: "compile.errReach" });
     }
   }, [project, engine, doSave, poll]);
 
