@@ -1,0 +1,25 @@
+{
+  "name": "@pinflow/compile-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./client": "./src/client.ts",
+    "./types": "./src/types.ts",
+    "./paths": "./src/paths.ts"
+  },
+  "scripts": {
+    "start": "tsx src/main.ts",
+    "dev": "tsx watch src/main.ts",
+    "test": "vitest run",
+    "test:unit": "vitest run --exclude test/integration.test.ts",
+    "test:integration": "vitest run test/integration.test.ts",
+    "typecheck": "tsc --noEmit -p ."
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15"
+  }
+}
