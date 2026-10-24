@@ -1,0 +1,639 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        0,
+        0
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        1,
+        1
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        2,
+        2
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        3,
+        3
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        4,
+        4
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        6,
+        6
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        7,
+        7
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        8,
+        8
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        9,
+        9
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        10,
+        10
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        11,
+        11
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        12,
+        12
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "VarDecl",
+      "lines": [
+        12,
+        12
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        14,
+        16
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        18,
+        31
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "VarDecl",
+        "type": "const int",
+        "isConst": true,
+        "name": "SENSOR_COUNT",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "3"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "const float",
+        "isConst": true,
+        "name": "GAIN",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "1.5f"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "unsigned long",
+        "isConst": false,
+        "name": "lastMs",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "0UL"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "volatile bool",
+        "isConst": false,
+        "name": "flag",
+        "init": {
+          "kind": "BoolLit",
+          "value": false
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "int",
+        "isConst": false,
+        "name": "pins",
+        "arraySize": "SENSOR_COUNT",
+        "arrayInit": [
+          {
+            "kind": "Ident",
+            "name": "A0"
+          },
+          {
+            "kind": "Ident",
+            "name": "A1"
+          },
+          {
+            "kind": "Ident",
+            "name": "A2"
+          }
+        ]
+      },
+      {
+        "kind": "VarDecl",
+        "type": "int",
+        "isConst": false,
+        "name": "readings",
+        "arraySize": "3"
+      },
+      {
+        "kind": "VarDecl",
+        "type": "char",
+        "isConst": false,
+        "name": "label",
+        "init": {
+          "kind": "CharLit",
+          "raw": "'x'"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "byte",
+        "isConst": false,
+        "name": "mask",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "0x0F"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "String",
+        "isConst": false,
+        "name": "name",
+        "init": {
+          "kind": "StringLit",
+          "raw": "\"uno\""
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "long",
+        "isConst": false,
+        "name": "big",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "100000L"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "uint8_t",
+        "isConst": false,
+        "name": "small",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "0b1010"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "static int",
+        "isConst": false,
+        "name": "counter",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "0"
+        }
+      },
+      {
+        "kind": "VarDecl",
+        "type": "int",
+        "isConst": false,
+        "name": "a"
+      },
+      {
+        "kind": "VarDecl",
+        "type": "int",
+        "isConst": false,
+        "name": "b",
+        "init": {
+          "kind": "NumberLit",
+          "raw": "2"
+        }
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "9600"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "VarDecl",
+            "type": "static int",
+            "isConst": false,
+            "name": "calls",
+            "init": {
+              "kind": "NumberLit",
+              "raw": "0"
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Update",
+              "op": "++",
+              "prefix": false,
+              "target": {
+                "kind": "Ident",
+                "name": "calls"
+              }
+            }
+          },
+          {
+            "kind": "For",
+            "body": [
+              {
+                "kind": "Assign",
+                "op": "=",
+                "target": {
+                  "kind": "Index",
+                  "target": {
+                    "kind": "Ident",
+                    "name": "readings"
+                  },
+                  "index": {
+                    "kind": "Ident",
+                    "name": "i"
+                  }
+                },
+                "value": {
+                  "kind": "Binary",
+                  "op": "*",
+                  "left": {
+                    "kind": "Call",
+                    "callee": "analogRead",
+                    "args": [
+                      {
+                        "kind": "Index",
+                        "target": {
+                          "kind": "Ident",
+                          "name": "pins"
+                        },
+                        "index": {
+                          "kind": "Ident",
+                          "name": "i"
+                        }
+                      }
+                    ]
+                  },
+                  "right": {
+                    "kind": "Ident",
+                    "name": "GAIN"
+                  }
+                }
+              }
+            ],
+            "init": {
+              "kind": "VarDecl",
+              "type": "int",
+              "isConst": false,
+              "name": "i",
+              "init": {
+                "kind": "NumberLit",
+                "raw": "0"
+              }
+            },
+            "cond": {
+              "kind": "Binary",
+              "op": "<",
+              "left": {
+                "kind": "Ident",
+                "name": "i"
+              },
+              "right": {
+                "kind": "Ident",
+                "name": "SENSOR_COUNT"
+              }
+            },
+            "update": {
+              "kind": "Update",
+              "op": "++",
+              "prefix": false,
+              "target": {
+                "kind": "Ident",
+                "name": "i"
+              }
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "total",
+            "init": {
+              "kind": "Binary",
+              "op": "-",
+              "left": {
+                "kind": "Binary",
+                "op": "+",
+                "left": {
+                  "kind": "Index",
+                  "target": {
+                    "kind": "Ident",
+                    "name": "readings"
+                  },
+                  "index": {
+                    "kind": "NumberLit",
+                    "raw": "0"
+                  }
+                },
+                "right": {
+                  "kind": "Binary",
+                  "op": "*",
+                  "left": {
+                    "kind": "Index",
+                    "target": {
+                      "kind": "Ident",
+                      "name": "readings"
+                    },
+                    "index": {
+                      "kind": "NumberLit",
+                      "raw": "1"
+                    }
+                  },
+                  "right": {
+                    "kind": "NumberLit",
+                    "raw": "2"
+                  }
+                }
+              },
+              "right": {
+                "kind": "Unary",
+                "op": "-",
+                "operand": {
+                  "kind": "Index",
+                  "target": {
+                    "kind": "Ident",
+                    "name": "readings"
+                  },
+                  "index": {
+                    "kind": "NumberLit",
+                    "raw": "2"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "int",
+            "isConst": false,
+            "name": "shifted",
+            "init": {
+              "kind": "Binary",
+              "op": "|",
+              "left": {
+                "kind": "Paren",
+                "inner": {
+                  "kind": "Binary",
+                  "op": "<<",
+                  "left": {
+                    "kind": "Ident",
+                    "name": "total"
+                  },
+                  "right": {
+                    "kind": "NumberLit",
+                    "raw": "2"
+                  }
+                }
+              },
+              "right": {
+                "kind": "Binary",
+                "op": "^",
+                "left": {
+                  "kind": "Paren",
+                  "inner": {
+                    "kind": "Binary",
+                    "op": "&",
+                    "left": {
+                      "kind": "Ident",
+                      "name": "mask"
+                    },
+                    "right": {
+                      "kind": "NumberLit",
+                      "raw": "3"
+                    }
+                  }
+                },
+                "right": {
+                  "kind": "NumberLit",
+                  "raw": "1"
+                }
+              }
+            }
+          },
+          {
+            "kind": "VarDecl",
+            "type": "bool",
+            "isConst": false,
+            "name": "ok",
+            "init": {
+              "kind": "Binary",
+              "op": "&&",
+              "left": {
+                "kind": "Unary",
+                "op": "!",
+                "operand": {
+                  "kind": "Ident",
+                  "name": "flag"
+                }
+              },
+              "right": {
+                "kind": "Binary",
+                "op": ">=",
+                "left": {
+                  "kind": "Ident",
+                  "name": "total"
+                },
+                "right": {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                }
+              }
+            }
+          },
+          {
+            "kind": "Assign",
+            "op": "=",
+            "target": {
+              "kind": "Ident",
+              "name": "total"
+            },
+            "value": {
+              "kind": "Call",
+              "callee": "map",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "total"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "1023"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "255"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "Assign",
+            "op": "=",
+            "target": {
+              "kind": "Ident",
+              "name": "total"
+            },
+            "value": {
+              "kind": "Call",
+              "callee": "constrain",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "total"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "0"
+                },
+                {
+                  "kind": "NumberLit",
+                  "raw": "255"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "Assign",
+            "op": "=",
+            "target": {
+              "kind": "Ident",
+              "name": "lastMs"
+            },
+            "value": {
+              "kind": "Call",
+              "callee": "millis",
+              "args": []
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "total"
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
