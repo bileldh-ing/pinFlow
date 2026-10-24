@@ -1,0 +1,8 @@
+/tmp/pinflow-capture/broken-uno/broken-uno.ino: In function 'void loop()':
+/tmp/pinflow-capture/broken-uno/broken-uno.ino:10:29: error: 'undeclaredLevel' was not declared in this scope
+   digitalWrite(LED_BUILTIN, undeclaredLevel);
+                             ^~~~~~~~~~~~~~~
+
+Used platform Version Path
+arduino:avr   1.8.8   /opt/pinflow/.arduino-cache/data/packages/arduino/hardware/avr/1.8.8
+Error during build: exit status 1
