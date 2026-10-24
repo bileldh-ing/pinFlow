@@ -4,6 +4,8 @@ import { Check, Columns2, Code2, Blocks, Maximize2 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button, Spinner } from "@/components/ui";
 import { motion, useReducedMotion } from "@/components/motion";
+import { HeaderToggles } from "@/components/ThemeToggle";
+import { useT } from "@/i18n/client";
 
 interface Props {
   name: string;
@@ -15,7 +17,7 @@ interface Props {
 function Option({ selected, onClick, title, desc, icon }: { selected: boolean; onClick: () => void; title: string; desc?: string; icon?: React.ReactNode }) {
   return (
     <button type="button" role="radio" aria-checked={selected} onClick={onClick}
-      className={`pf-transition flex w-full items-start gap-3 rounded-2xl border p-3.5 text-left ${selected ? "border-accent-strong bg-accent/12 shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent-strong)_18%,transparent)]" : "border-line hover:border-line-strong hover:bg-surface-hover"}`}>
+      className={`pf-transition flex w-full items-start gap-3 rounded-2xl border p-3.5 text-start ${selected ? "border-accent-strong bg-accent/12 shadow-[0_0_0_3px_color-mix(in_srgb,var(--accent-strong)_18%,transparent)]" : "border-line hover:border-line-strong hover:bg-surface-hover"}`}>
       {icon && <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface-hover text-accent">{icon}</span>}
       <span className="min-w-0 flex-1">
         <span className="block text-sm font-medium">{title}</span>
@@ -34,51 +36,52 @@ export function OnboardingWizard({ name, boards, templates, action }: Props) {
   const [template, setTemplate] = useState<string | null>("dht11-esp32");
   const [pending, start] = useTransition();
   const reduce = useReducedMotion();
-  const steps = ["Experience", "Board", "Layout", "First sketch"];
+  const t = useT();
+  const steps = [t("onb.stepExperience"), t("onb.stepBoard"), t("onb.stepLayout"), t("onb.stepFirst")];
 
   const finish = (tpl: string | null) => start(() => action({ skillLevel: skill, preferredBoard: board, layout, templateId: tpl }));
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="px-5 py-4 sm:px-8"><Logo /></header>
+      <header className="flex items-center justify-between px-5 py-4 sm:px-8"><Logo /><HeaderToggles /></header>
       <main id="main" className="flex flex-1 justify-center px-4 pb-16">
         <div className="glass w-full max-w-xl self-start rounded-[var(--radius)] p-6 sm:mt-6 sm:p-8">
-          <p className="text-sm text-muted">Welcome, {name}</p>
-          <h1 className="mt-1 text-[26px] font-bold tracking-tight">Let’s set up your workbench</h1>
-          <ol className="mt-5 flex gap-2" aria-label="Progress">
+          <p className="text-sm text-muted">{t("onb.welcome", { name })}</p>
+          <h1 className="mt-1 text-[26px] font-bold tracking-tight">{t("onb.title")}</h1>
+          <ol className="mt-5 flex gap-2" aria-label={t("onb.progress")}>
             {steps.map((s, i) => (
               <li key={s} className={`h-1.5 flex-1 rounded-full transition-colors duration-200 ${i <= step ? "pf-accent-fill" : "bg-line-strong"}`} aria-current={i === step ? "step" : undefined}><span className="sr-only">{s}</span></li>
             ))}
           </ol>
-          <motion.div key={step} initial={reduce ? false : { opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }} className="mt-6 space-y-2.5" role="radiogroup" aria-label={steps[step]}>
+          <motion.div key={step} initial={reduce ? false : { opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }} className="mt-6 space-y-2.5" role="radiogroup" aria-label={steps[step]}>
             {step === 0 && (<>
-              <h2 className="mb-3 font-medium">How familiar are you with Arduino?</h2>
-              <Option selected={skill === "beginner"} onClick={() => setSkill("beginner")} title="Beginner" desc="Start with blocks; the code updates alongside." />
-              <Option selected={skill === "intermediate"} onClick={() => setSkill("intermediate")} title="Intermediate" desc="Comfortable with setup()/loop() and basic C++." />
-              <Option selected={skill === "advanced"} onClick={() => setSkill("advanced")} title="Advanced" desc="Write C++; use blocks to explain or review." />
+              <h2 className="mb-3 font-medium">{t("onb.q1")}</h2>
+              <Option selected={skill === "beginner"} onClick={() => setSkill("beginner")} title={t("onb.beginner")} desc={t("onb.beginnerD")} />
+              <Option selected={skill === "intermediate"} onClick={() => setSkill("intermediate")} title={t("onb.intermediate")} desc={t("onb.intermediateD")} />
+              <Option selected={skill === "advanced"} onClick={() => setSkill("advanced")} title={t("onb.advanced")} desc={t("onb.advancedD")} />
             </>)}
             {step === 1 && (<>
-              <h2 className="mb-3 font-medium">Which board do you use most?</h2>
+              <h2 className="mb-3 font-medium">{t("onb.q2")}</h2>
               {boards.map((b) => <Option key={b.fqbn} selected={board === b.fqbn} onClick={() => setBoard(b.fqbn)} title={b.name} desc={b.fqbn} />)}
             </>)}
             {step === 2 && (<>
-              <h2 className="mb-3 font-medium">Default editor layout</h2>
-              <Option selected={layout === "side-by-side"} onClick={() => setLayout("side-by-side")} title="Side by side" desc="Blocks left, code right." icon={<Columns2 size={16} />} />
-              <Option selected={layout === "blocks-first"} onClick={() => setLayout("blocks-first")} title="Blocks first" desc="Larger block canvas, code as a side panel." icon={<Blocks size={16} />} />
-              <Option selected={layout === "code-first"} onClick={() => setLayout("code-first")} title="Code first" desc="Larger code editor, blocks as a side panel." icon={<Code2 size={16} />} />
-              <Option selected={layout === "focus"} onClick={() => setLayout("focus")} title="Focus" desc="One pane at a time." icon={<Maximize2 size={16} />} />
+              <h2 className="mb-3 font-medium">{t("onb.q3")}</h2>
+              <Option selected={layout === "side-by-side"} onClick={() => setLayout("side-by-side")} title={t("onb.sideBySide")} desc={t("onb.sideBySideD")} icon={<Columns2 size={16} />} />
+              <Option selected={layout === "blocks-first"} onClick={() => setLayout("blocks-first")} title={t("onb.blocksFirst")} desc={t("onb.blocksFirstD")} icon={<Blocks size={16} />} />
+              <Option selected={layout === "code-first"} onClick={() => setLayout("code-first")} title={t("onb.codeFirst")} desc={t("onb.codeFirstD")} icon={<Code2 size={16} />} />
+              <Option selected={layout === "focus"} onClick={() => setLayout("focus")} title={t("onb.focus")} desc={t("onb.focusD")} icon={<Maximize2 size={16} />} />
             </>)}
             {step === 3 && (<>
-              <h2 className="mb-3 font-medium">Start from…</h2>
-              <Option selected={template === "dht11-esp32"} onClick={() => setTemplate("dht11-esp32")} title="Guided: DHT11 on ESP32" desc="Temperature & humidity, the flagship example." />
-              {templates.filter((t) => t.id !== "dht11-esp32").slice(0, 3).map((t) => <Option key={t.id} selected={template === t.id} onClick={() => setTemplate(t.id)} title={t.title} desc={t.description} />)}
-              <Option selected={template === "blank"} onClick={() => setTemplate("blank")} title="Blank sketch" desc="Empty setup() and loop()." />
+              <h2 className="mb-3 font-medium">{t("onb.q4")}</h2>
+              <Option selected={template === "dht11-esp32"} onClick={() => setTemplate("dht11-esp32")} title={t("onb.guided")} desc={t("onb.guidedD")} />
+              {templates.filter((tp) => tp.id !== "dht11-esp32").slice(0, 3).map((tp) => <Option key={tp.id} selected={template === tp.id} onClick={() => setTemplate(tp.id)} title={tp.title} desc={tp.description} />)}
+              <Option selected={template === "blank"} onClick={() => setTemplate("blank")} title={t("onb.blank")} desc={t("onb.blankD")} />
             </>)}
           </motion.div>
           <div className="mt-7 flex items-center justify-between gap-3">
-            <Button variant="ghost" onClick={() => (step === 0 ? finish(null) : setStep(step - 1))} disabled={pending}>{step === 0 ? "Skip for now" : "Back"}</Button>
-            {step < 3 ? <Button variant="primary" onClick={() => setStep(step + 1)}>Continue</Button>
-              : <Button variant="primary" onClick={() => finish(template)} disabled={pending}>{pending && <Spinner />}Open the workbench</Button>}
+            <Button variant="ghost" onClick={() => (step === 0 ? finish(null) : setStep(step - 1))} disabled={pending}>{step === 0 ? t("onb.skip") : t("common.back")}</Button>
+            {step < 3 ? <Button variant="primary" onClick={() => setStep(step + 1)}>{t("common.continue")}</Button>
+              : <Button variant="primary" onClick={() => finish(template)} disabled={pending}>{pending && <Spinner />}{t("onb.open")}</Button>}
           </div>
         </div>
       </main>
