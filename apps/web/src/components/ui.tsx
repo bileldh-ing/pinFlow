@@ -56,7 +56,7 @@ export function FieldError({ id, children }: { id?: string; children?: ReactNode
 }
 
 export function Spinner({ className = "" }: { className?: string }) {
-  return <span aria-hidden className={`inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-r-transparent ${className}`} />;
+  return <span aria-hidden className={`inline-block h-3.5 w-3.5 animate-spin rounded-full border-2 border-current border-e-transparent ${className}`} />;
 }
 
 export function Kbd({ children }: { children: ReactNode }) {
