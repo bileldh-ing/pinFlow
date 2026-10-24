@@ -1,0 +1,9 @@
+public/monaco/
+public/wasm/
+src/generated/
+.pglite-data*
+test-results/
+playwright-report/
+next-env.d.ts
+*.tsbuildinfo
+public/blockly-media/
