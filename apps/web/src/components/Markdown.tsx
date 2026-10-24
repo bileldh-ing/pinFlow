@@ -44,8 +44,10 @@ export function Markdown({ source }: { source: string }) {
     }
     const h = /^(#{1,4})\s+(.*)$/.exec(line);
     if (h) {
-      const level = h[1]!.length; const text = h[2]!;
-      const props = { key: k++, id: slug(text) };
+      const level = h[1]!.length;
+      const explicit = / \{#([\w-]+)\}\s*$/.exec(h[2]!); // "Title {#id}" pins a language-independent anchor
+      const text = explicit ? h[2]!.slice(0, explicit.index) : h[2]!;
+      const props = { key: k++, id: explicit ? explicit[1] : slug(text) };
       blocks.push(level === 1 ? <h1 {...props}>{inline(text)}</h1> : level === 2 ? <h2 {...props}>{inline(text)}</h2> : <h3 {...props}>{inline(text)}</h3>);
       i++; continue;
     }
