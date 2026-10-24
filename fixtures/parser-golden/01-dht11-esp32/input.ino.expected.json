@@ -1,0 +1,321 @@
+{
+  "ok": true,
+  "ratio": 1,
+  "coverage": [
+    {
+      "coverage": "fully_visualized",
+      "construct": "Include",
+      "lines": [
+        3,
+        3
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Define",
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Define",
+      "lines": [
+        6,
+        6
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "ObjectDecl",
+      "lines": [
+        8,
+        8
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        10,
+        14
+      ]
+    },
+    {
+      "coverage": "fully_visualized",
+      "construct": "Function",
+      "lines": [
+        16,
+        34
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "input.ino",
+    "items": [
+      {
+        "kind": "Include",
+        "path": "DHT.h",
+        "system": true,
+        "leadingComments": [
+          "// PinFlow Studio starter: ESP32 Dev Module + DHT11 temperature/humidity sensor.",
+          "// Libraries: \"DHT sensor library\" (Adafruit) + \"Adafruit Unified Sensor\".",
+          "// Wiring: DHT11 VCC -> 3V3, GND -> GND, DATA -> GPIO4 (10k pull-up to 3V3 if the module has none)."
+        ]
+      },
+      {
+        "kind": "Define",
+        "name": "DHTPIN",
+        "value": "4",
+        "trailingComment": "// GPIO4: output-capable, not a strapping or flash pin",
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Define",
+        "name": "DHTTYPE",
+        "value": "DHT11"
+      },
+      {
+        "kind": "ObjectDecl",
+        "className": "DHT",
+        "name": "dht",
+        "args": [
+          {
+            "kind": "Ident",
+            "name": "DHTPIN"
+          },
+          {
+            "kind": "Ident",
+            "name": "DHTTYPE"
+          }
+        ],
+        "hasParens": true,
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "setup",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "begin",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "115200"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"DHT11 on ESP32 starting...\""
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "dht",
+              "method": "begin",
+              "args": []
+            }
+          }
+        ],
+        "blankLineBefore": true
+      },
+      {
+        "kind": "Function",
+        "returnType": "void",
+        "name": "loop",
+        "params": [],
+        "body": [
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "Call",
+              "callee": "delay",
+              "args": [
+                {
+                  "kind": "NumberLit",
+                  "raw": "2000"
+                }
+              ]
+            },
+            "leadingComments": [
+              "// DHT11 needs about 1-2 s between readings."
+            ]
+          },
+          {
+            "kind": "VarDecl",
+            "type": "float",
+            "isConst": false,
+            "name": "humidity",
+            "init": {
+              "kind": "MethodCall",
+              "object": "dht",
+              "method": "readHumidity",
+              "args": []
+            },
+            "blankLineBefore": true
+          },
+          {
+            "kind": "VarDecl",
+            "type": "float",
+            "isConst": false,
+            "name": "temperature",
+            "init": {
+              "kind": "MethodCall",
+              "object": "dht",
+              "method": "readTemperature",
+              "args": []
+            }
+          },
+          {
+            "kind": "If",
+            "branches": [
+              {
+                "cond": {
+                  "kind": "Binary",
+                  "op": "||",
+                  "left": {
+                    "kind": "Call",
+                    "callee": "isnan",
+                    "args": [
+                      {
+                        "kind": "Ident",
+                        "name": "humidity"
+                      }
+                    ]
+                  },
+                  "right": {
+                    "kind": "Call",
+                    "callee": "isnan",
+                    "args": [
+                      {
+                        "kind": "Ident",
+                        "name": "temperature"
+                      }
+                    ]
+                  }
+                },
+                "body": [
+                  {
+                    "kind": "ExprStmt",
+                    "expr": {
+                      "kind": "MethodCall",
+                      "object": "Serial",
+                      "method": "println",
+                      "args": [
+                        {
+                          "kind": "StringLit",
+                          "raw": "\"Failed to read from DHT sensor!\""
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "kind": "Return"
+                  }
+                ]
+              }
+            ],
+            "leadingComments": [
+              "// A failed read returns NAN: skip this round instead of printing garbage."
+            ],
+            "blankLineBefore": true
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "print",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\"Humidity: \""
+                }
+              ]
+            },
+            "blankLineBefore": true
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "print",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "humidity"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "print",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\" %  Temperature: \""
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "print",
+              "args": [
+                {
+                  "kind": "Ident",
+                  "name": "temperature"
+                }
+              ]
+            }
+          },
+          {
+            "kind": "ExprStmt",
+            "expr": {
+              "kind": "MethodCall",
+              "object": "Serial",
+              "method": "println",
+              "args": [
+                {
+                  "kind": "StringLit",
+                  "raw": "\" C\""
+                }
+              ]
+            }
+          }
+        ],
+        "blankLineBefore": true
+      }
+    ],
+    "eol": "\n"
+  }
+}
