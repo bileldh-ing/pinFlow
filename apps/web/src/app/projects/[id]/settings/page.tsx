@@ -9,7 +9,9 @@ import { AppHeader } from "@/components/app/AppHeader";
 import { ProjectSubnav } from "@/components/app/ProjectSubnav";
 import { SettingsClient } from "./client";
 
-export const metadata = { title: "Project settings" };
+import { getT } from "@/i18n/server";
+
+export async function generateMetadata() { return { title: (await getT())("meta.projectSettings") }; }
 export const dynamic = "force-dynamic";
 
 export default async function SettingsPage({ params }: { params: Promise<{ id: string }> }) {
