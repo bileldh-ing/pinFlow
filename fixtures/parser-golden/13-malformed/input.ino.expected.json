@@ -1,0 +1,35 @@
+{
+  "ok": false,
+  "ratio": 0,
+  "coverage": [
+    {
+      "coverage": "parse_error",
+      "construct": "ERROR",
+      "lines": [
+        5,
+        5
+      ]
+    },
+    {
+      "coverage": "parse_error",
+      "construct": "ERROR",
+      "lines": [
+        8,
+        8
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "message": "Missing \"identifier\"",
+      "line": 5,
+      "col": 23
+    },
+    {
+      "message": "Missing \"}\"",
+      "line": 8,
+      "col": 1
+    }
+  ],
+  "ir": null
+}
