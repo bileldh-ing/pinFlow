@@ -31,5 +31,5 @@ Statuses: `implemented-and-tested`, `implemented-but-not-fully-tested`, `partial
 - First ESP32 build takes 11–18 min on a 2-CPU host; production must pre-warm the core cache.
 - Ambiguous C++ (`(a) + b`, `a < b > (c)`) is kept as raw code rather than guessed.
 
-## Test totals (2026-10-24, after i18n)
-cpp-parser 129, arduino-codegen 8, sync-engine 14, board-registry 15, block-definitions 31 (+14 i18n), database 15, compile-worker 79 (+2 ESP32 opt-in skipped), local-bridge 6, web 47 (+17 i18n) — 344 unit tests. Typecheck clean; next build succeeds. Playwright main suite 10/10: workbench.spec 3, flows.spec 4, i18n.spec 3 (compile-real and screenshots specs are opt-in).
+## Test totals (2026-10-24)
+cpp-parser 129, arduino-codegen 8, sync-engine 14, board-registry 15, block-definitions 17, database 15, compile-worker 79 (+2 ESP32 opt-in skipped), local-bridge 6, web 30. Typecheck clean; next build succeeds.
