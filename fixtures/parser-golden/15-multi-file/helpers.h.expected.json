@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "ratio": 0,
+  "coverage": [
+    {
+      "coverage": "raw_preserved",
+      "construct": "preproc_ifdef",
+      "lines": [
+        0,
+        9
+      ]
+    }
+  ],
+  "diagnostics": [],
+  "ir": {
+    "path": "helpers.h",
+    "items": [
+      {
+        "kind": "RawTopLevel",
+        "text": "#ifndef HELPERS_H\n#define HELPERS_H\n\n#include <Arduino.h>\n\nvoid initLeds();\nint readLevel(int pin);\nvoid showLevel(int level);\n\n#endif",
+        "reason": "Conditional compilation (#ifdef/#ifndef) is preserved verbatim because each branch may target a different board."
+      }
+    ],
+    "eol": "\n"
+  }
+}
